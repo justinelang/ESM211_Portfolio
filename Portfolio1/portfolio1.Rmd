@@ -1,0 +1,33 @@
+---
+title: "Portfolio1"
+author: "Justine Lang"
+date: "2024-01-16"
+output: 
+  html_document: 
+    code_folding: hide
+---
+
+```{r setup, echo = TRUE, warning = FALSE, results = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, results = FALSE, message = FALSE)
+
+library(tidyverse)
+library(janitor)
+library(here)
+library(ebirdst)
+```
+
+```{r}
+set_ebirdst_access_key("6pmmmj5a1erm")
+```
+
+```{r}
+sals <- read_csv(here("Portfolio1", "sstspa_regional_2022.csv"))
+```
+
+
+
+
+
+
+
+

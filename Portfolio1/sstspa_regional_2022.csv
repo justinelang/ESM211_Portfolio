@@ -1,0 +1,49 @@
+species_code,common_name,scientific_name,prediction_year,region_type,region_code,region_name,season,start_date,end_date,abundance_mean,total_pop_percent,range_percent_occupied,range_total_percent,range_days_occupation
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,country,USA,United States,breeding,2022-05-24,2022-09-06,1e-4,1,3e-4,1,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,country,USA,United States,nonbreeding,2022-12-13,2022-03-15,0,1,3e-4,1,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,country,USA,United States,postbreeding_migration,2022-09-13,2022-12-06,0,1,3e-4,1,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,country,USA,United States,prebreeding_migration,2022-03-22,2022-05-17,0,1,3e-4,1,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-CT,Connecticut,breeding,2022-05-24,2022-09-06,0.0033,0.0343,0.0044,0.0214,112
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-CT,Connecticut,postbreeding_migration,2022-09-13,2022-12-06,0.0013,0.049,0.0041,0.0178,63
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-CT,Connecticut,prebreeding_migration,2022-03-22,2022-05-17,4e-4,0.0201,0.0018,0.0072,14
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-DE,Delaware,breeding,2022-05-24,2022-09-06,0.0018,0.0081,0.0169,0.0349,105
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-DE,Delaware,postbreeding_migration,2022-09-13,2022-12-06,3e-4,0.0049,0.0046,0.0085,49
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-DE,Delaware,prebreeding_migration,2022-03-22,2022-05-17,2e-4,0.0053,0.0046,0.0079,21
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-FL,Florida,nonbreeding,2022-12-13,2022-03-15,1e-4,0.0957,6e-4,0.0373,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-FL,Florida,postbreeding_migration,2022-09-13,2022-12-06,0,0.0151,3e-4,0.0169,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-FL,Florida,prebreeding_migration,2022-03-22,2022-05-17,0,0.0158,4e-4,0.0185,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-GA,Georgia,nonbreeding,2022-12-13,2022-03-15,6e-4,0.4184,0.0041,0.2445,42
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-GA,Georgia,postbreeding_migration,2022-09-13,2022-12-06,1e-4,0.0415,0.0015,0.0746,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-GA,Georgia,prebreeding_migration,2022-03-22,2022-05-17,1e-4,0.0646,0.0018,0.0823,21
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-MA,Massachusetts,breeding,2022-05-24,2022-09-06,0.0174,0.3244,0.0249,0.2173,112
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-MA,Massachusetts,postbreeding_migration,2022-09-13,2022-12-06,0.0016,0.1093,0.0114,0.0881,49
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-MA,Massachusetts,prebreeding_migration,2022-03-22,2022-05-17,0.0013,0.1171,0.0175,0.127,21
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-MD,Maryland,breeding,2022-05-24,2022-09-06,0.0023,0.0532,0.0126,0.1365,112
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-MD,Maryland,nonbreeding,2022-12-13,2022-03-15,2e-4,0.0217,0.0073,0.0847,35
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-MD,Maryland,postbreeding_migration,2022-09-13,2022-12-06,7e-4,0.057,0.0094,0.0901,91
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-MD,Maryland,prebreeding_migration,2022-03-22,2022-05-17,0.0011,0.1209,0.015,0.1349,42
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-ME,Maine,breeding,2022-05-24,2022-09-06,3e-4,0.0236,6e-4,0.019,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-ME,Maine,postbreeding_migration,2022-09-13,2022-12-06,0,0.0039,3e-4,0.0085,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-ME,Maine,prebreeding_migration,2022-03-22,2022-05-17,0,0.002,1e-4,0.0026,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-NC,North Carolina,nonbreeding,2022-12-13,2022-03-15,1e-4,0.0663,0.0035,0.1797,28
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-NC,North Carolina,postbreeding_migration,2022-09-13,2022-12-06,1e-4,0.0499,0.002,0.0845,14
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-NC,North Carolina,prebreeding_migration,2022-03-22,2022-05-17,0,0.0195,0.0022,0.0899,14
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-NH,New Hampshire,breeding,2022-05-24,2022-09-06,2e-4,0.0036,4e-4,0.0032,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-NH,New Hampshire,postbreeding_migration,2022-09-13,2022-12-06,0,2e-4,3e-4,0.002,0
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-NJ,New Jersey,breeding,2022-05-24,2022-09-06,0.019,0.3154,0.0398,0.3091,112
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-NJ,New Jersey,nonbreeding,2022-12-13,2022-03-15,1e-4,0.0119,0.0037,0.0305,21
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-NJ,New Jersey,postbreeding_migration,2022-09-13,2022-12-06,0.0033,0.2014,0.0184,0.1268,63
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-NJ,New Jersey,prebreeding_migration,2022-03-22,2022-05-17,0.0039,0.3133,0.0251,0.1623,35
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-NY,New York,breeding,2022-05-24,2022-09-06,0.0012,0.1224,0.0023,0.11,49
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-NY,New York,postbreeding_migration,2022-09-13,2022-12-06,4e-4,0.162,0.0022,0.093,28
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-NY,New York,prebreeding_migration,2022-03-22,2022-05-17,2e-4,0.0858,0.0018,0.0705,7
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-RI,Rhode Island,breeding,2022-05-24,2022-09-06,0.0367,0.1019,0.0313,0.0407,112
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-RI,Rhode Island,postbreeding_migration,2022-09-13,2022-12-06,0.0012,0.0127,0.0115,0.0132,49
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-RI,Rhode Island,prebreeding_migration,2022-03-22,2022-05-17,0.0023,0.0308,0.008,0.0086,21
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-SC,South Carolina,nonbreeding,2022-12-13,2022-03-15,6e-4,0.2159,0.0074,0.2335,84
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-SC,South Carolina,postbreeding_migration,2022-09-13,2022-12-06,9e-4,0.2058,0.009,0.2381,70
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-SC,South Carolina,prebreeding_migration,2022-03-22,2022-05-17,0,0.0134,0.0019,0.0473,14
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-VA,Virginia,breeding,2022-05-24,2022-09-06,2e-4,0.013,0.0028,0.1079,14
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-VA,Virginia,nonbreeding,2022-12-13,2022-03-15,3e-4,0.1701,0.0045,0.1898,28
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-VA,Virginia,postbreeding_migration,2022-09-13,2022-12-06,3e-4,0.0873,0.004,0.138,28
+sstspa,Saltmarsh Sparrow,Ammospiza caudacuta,2022,state,USA-VA,Virginia,prebreeding_migration,2022-03-22,2022-05-17,5e-4,0.1916,0.0074,0.2407,28
