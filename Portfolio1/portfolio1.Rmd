@@ -17,7 +17,7 @@ library(ebirdst)
 ```
 
 ```{r}
-set_ebirdst_access_key("6pmmmj5a1erm")
+# set_ebirdst_access_key("6pmmmj5a1erm")
 ```
 
 ```{r}
