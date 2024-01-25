@@ -1,0 +1,91 @@
+---
+title: "HR Kernel"
+author: "Justine Lang"
+date: "2024-01-24"
+output: 
+  html_document: 
+    code_folding: show
+---
+
+```{r setup, echo = TRUE, warning = FALSE, message = FALSE, results = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, results = FALSE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(adehabitatHR)
+library(sp)
+library(scales)
+library(ggmap)
+```
+
+```{r}
+# Read the csv file
+turtles <- read_csv(here("Habitat_Portfolio", "tracking_sample.csv"))
+```
+
+```{r}
+# SpatialPointsDataFrame objects don't like missing values
+# Remove two rows with NA's
+turtles <- turtles[!is.na(turtles$x) & !is.na(turtles$y),]
+
+# Only include three columns (id, x, and y coordinates) for making MCP's
+turtles.sp <- turtles[, c("id", "x", "y")] 
+
+# Create a SpatialPointsDataFrame by defining the coordinates
+coordinates(turtles.sp) <- c("x", "y")
+
+# Set the coordinate reference system (CRS)
+# More information on CRS here: 
+# https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf
+# The sample data are UTM points in WGS84 from zone 18N
+proj4string(turtles.sp) <- CRS( "+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs" )
+```
+
+```{r}
+kernel.ref <- kernelUD(turtles.sp, h = "href")  # href = the reference bandwidth
+image(kernel.ref) # plot
+```
+
+```{r}
+kernel.ref[[1]]@h # The smoothing factor is stored for each animal in the "h" slot
+```
+
+```{r}
+kernel.lscv <- kernelUD(turtles.sp, h = "LSCV") # Least square cross validation
+```
+
+```{r}
+image(kernel.lscv) # plot
+```
+
+```{r}
+plotLSCV(kernel.lscv) # Look for a dip
+```
+
+```{r}
+turtle.kernel.poly <- getverticeshr(kernel.ref, percent = 95) 
+print(turtle.kernel.poly)  # returns the area of each polygon
+```
+
+```{r}
+color <- rep("white", nrow(turtles.sp@data))
+  color[(turtles.sp@data$id == "T002")] <- "red"
+  color[(turtles.sp@data$id == "T003")] <- "green"
+  color[(turtles.sp@data$id == "T004")] <- "blue"
+  color[(turtles.sp@data$id == "T005")] <- "cyan"
+plot(turtle.kernel.poly, col = turtle.kernel.poly@data$id)
+  plot(turtles.sp, add = TRUE, col = color, pch = 21)
+```
+
+
+
+
+
+
+
+
+
+
+
+
