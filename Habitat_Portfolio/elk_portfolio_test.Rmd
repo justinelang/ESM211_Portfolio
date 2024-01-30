@@ -110,10 +110,81 @@ mymap.hr
 ```
 
 
+```{r}
+fg_sample <- elk %>% 
+  filter(feedground %in% c("Forest_Park", "National_Elk_Refuge", "Horse_Creek", "Soda_Lake", "Dog_Creek"))
 
+# Only include three columns (id, x, and y coordinates) for making MCP's
+feed.sp <- fg_sample[, c("feedground", "x", "y")] 
 
+# Create a SpatialPointsDataFrame by defining the coordinates
+coordinates(feed.sp) <- c("x", "y")
 
+# Set the coordinate reference system (CRS)
+# More information on CRS here: 
+# https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf
+# The data are UTM points in WGS84 from zone 12N
+proj4string(feed.sp) <- CRS("+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs")
+```
 
+```{r}
+# Calculate MCPs for each fed elk herd
+feed.mcp <- mcp(feed.sp, percent = 100)
+
+# Examine output
+feed.mcp
+```
+
+```{r}
+# Plot
+# library(scales) # Helps make polygons partly transparent using the alpha argument below
+plot(feed.sp, col = as.factor(feed.sp@data$feedground), pch = 16)
+plot(feed.mcp, col = alpha(1:5, 0.5), add = TRUE)
+```
+
+```{r}
+# Calculate the MCP by including 50 to 100 percent of points
+hrs_fg <- mcp.area(feed.sp, percent = seq(50, 100, by = 5))
+```
+
+```{r}
+hrs_fg # examine dataframe
+```
+
+```{r}
+# Transform the point and MCP objects. 
+feed.spgeo <- spTransform(feed.sp, CRS("+proj=longlat"))
+feed.mcpgeo <- spTransform(feed.mcp, CRS("+proj=longlat"))
+
+register_stadiamaps(key = "abd38f6a-07a9-43fb-99fa-9288b2fdb209")
+
+mybasemap_fg <- get_stadiamap(bbox = c(left = min(feed.spgeo@coords[,1])-0.005, 
+                                    bottom = min(feed.spgeo@coords[,2])-0.005, 
+                                    right = max(feed.spgeo@coords[,1])+0.005, 
+                                    top = max(feed.spgeo@coords[,2])+0.005), 
+                           zoom = 12)
+
+# Turn the spatial data frame of points into just a dataframe for plotting in ggmap
+feed.geo <- data.frame(feed.spgeo@coords, 
+                          id = feed.spgeo@data$feedground )
+
+mymap.hr_fg <- ggmap(mybasemap_fg) + 
+  geom_polygon(data = fortify(feed.mcpgeo),  
+               # Polygon layer needs to be "fortified" to add geometry to the dataframe
+              aes(long, lat, colour = id, fill = id),
+              alpha = 0.3) + # alpha sets the transparency
+  geom_point(data = feed.geo, 
+             aes(x = x, y = y, colour = id))  +
+  theme(legend.position = c(0.15, 0.80)) +
+  labs(x = "Longitude", y = "Latitude") +
+  scale_fill_manual(name = "Elk Feedground",
+                      values = c("red", "blue", "purple", "green", "orange"),
+                      breaks = c("Forest_Park", "National_Elk_Refuge", "Horse_Creek", "Soda_Lake", "Dog_Creek")) +
+  scale_colour_manual(name = "Elk Feedground",
+                      values = c("red", "blue", "purple", "green", "orange"),
+                      breaks = c("Forest_Park", "National_Elk_Refuge", "Horse_Creek", "Soda_Lake", "Dog_Creek"))
+mymap.hr_fg
+```
 
 
 
