@@ -1,0 +1,231 @@
+---
+title: "merkle_wrangle"
+author: "Justine Lang"
+date: "2023-10-12"
+output: 
+  html_document: 
+    code_folding: hide
+---
+
+```{r setup, echo = TRUE, warning = FALSE, message = FALSE, results = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, results = FALSE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(oce)
+library(rgdal)
+library(leaflet)
+```
+
+```{r}
+### Read in data
+
+gye_collar <- read_csv(here("Habitat_Portfolio", "southernGYE_elkcollar.csv")) 
+
+# ner_filtered <- gye_collar %>% 
+  # filter(Feedground == "National_Elk_Refuge")
+```
+
+```{r}
+### Filtered NER collar data (spring and summer)
+
+# ner_filt_mut <- ner_filtered %>% 
+#   mutate(date = mdy_hm(Date_Time_MST)) %>% 
+#   mutate(year = year(date)) %>% 
+#   mutate(month = month(date))
+# 
+# ner_filt_spring <- ner_filt_mut %>% 
+#   filter(month %in% c("3", "4", "5"))
+# 
+# ner_filt_spring_15 <- ner_filt_spring %>% 
+#   filter(year == 2015)
+# 
+# ner_filt_summer <- ner_filt_mut %>% 
+#   filter(month %in% c("6", "7"))
+# 
+# ner_filt_summer_15 <- ner_filt_summer %>% 
+#   filter(year == 2015)
+
+# ner_filt_15 <- ner_filt_mut %>%
+#   filter(year == 2015)
+```
+
+```{r}
+### Filtered all data (spring and summer)
+### Disregard 2014 data; doesn't cover all feedgrounds
+
+# gye_clr_mut <- gye_collar %>% 
+#   mutate(date = mdy_hm(Date_Time_MST)) %>% 
+#   mutate(year = year(date)) %>% 
+#   mutate(month = month(date))
+# 
+# gye_clr_spring <- gye_clr_mut %>% 
+#   filter(month %in% c("3", "4", "5"))
+
+# gye_clr_spring_14 <- gye_clr_spring %>% 
+#   filter(year == 2014)
+
+# gye_clr_summer <- gye_clr_mut %>% 
+#   filter(month %in% c("6", "7"))
+
+# gye_clr_summer_14 <- gye_clr_summer %>% 
+#   filter(year == 2014)
+# 
+# gye_clr_14 <- gye_clr_mut %>% 
+#   filter(year == 2014)
+```
+
+```{r}
+gye_collar <- gye_collar %>% 
+  mutate(datetime = mdy_hm(Date_Time_MST)) %>% 
+  mutate(time = format(datetime, format = "%H:%M:%S")) %>% 
+  mutate(date = as.Date(datetime))
+```
+
+```{r}
+gye_collar_filt <- gye_collar %>% 
+  rename(id = AID) %>% 
+  rename(x = Easting) %>% 
+  rename(y = Northing)
+
+gye_collar_filt <- gye_collar_filt %>% 
+  select("id", "x", "y", "date", "time", "Feedground") %>% 
+  clean_names()
+```
+
+```{r}
+write.csv(gye_collar_filt, here("Habitat_Portfolio", "elk_collar.csv"), row.names=FALSE)
+```
+
+
+```{r}
+### Convert from UTM to lat-long
+
+### All NER data 
+
+utmcoor_ner_filt <- SpatialPoints(cbind(ner_filtered$Easting, ner_filtered$Northing), proj4string = CRS("+proj=utm +zone=12")) 
+
+longlatcoor_ner_filt <- spTransform(utmcoor_ner_filt,CRS("+proj=longlat"))
+
+longlat_nerfilt_df <- data.frame(longlatcoor_ner_filt)
+
+longlat_nerfilt_df$scientific_name <- c("Cervus canadensis")
+
+longlat_nerfilt_df <- longlat_nerfilt_df[, c(3, 1, 2)]
+
+gye_ner_wallace <- longlat_nerfilt_df %>% 
+  rename(longitude = coords.x1) %>% # renamed lat/long columns for easier spatial analysis
+  rename(latitude = coords.x2)
+```
+
+```{r}
+### All NER spring data
+
+utmcoor_ner_spring <- SpatialPoints(cbind(ner_filt_spring$Easting, ner_filt_spring$Northing), proj4string = CRS("+proj=utm +zone=12")) 
+
+longlatcoor_ner_spring <- spTransform(utmcoor_ner_spring,CRS("+proj=longlat"))
+
+longlat_nerspr_df <- data.frame(longlatcoor_ner_spring)
+
+longlat_nerspr_df$scientific_name <- c("Cervus canadensis")
+
+longlat_nerspr_df <- longlat_nerspr_df[, c(3, 1, 2)]
+
+gye_ner_spring <- longlat_nerspr_df %>% 
+  rename(longitude = coords.x1) %>% # renamed lat/long columns for easier spatial analysis
+  rename(latitude = coords.x2)
+```
+
+```{r}
+### All NER 2015 data
+
+utmcoor_ner_filt15 <- SpatialPoints(cbind(ner_filt_15$Easting, ner_filt_15$Northing), proj4string = CRS("+proj=utm +zone=12")) 
+
+longlatcoor_ner_filt15 <- spTransform(utmcoor_ner_filt15,CRS("+proj=longlat"))
+
+longlat_nerfilt15_df <- data.frame(longlatcoor_ner_filt15)
+
+longlat_nerfilt15_df$scientific_name <- c("Cervus canadensis")
+
+longlat_nerfilt15_df <- longlat_nerfilt15_df[, c(3, 1, 2)]
+
+gye_ner_15 <- longlat_nerfilt15_df %>% 
+  rename(longitude = coords.x1) %>% # renamed lat/long columns for easier spatial analysis
+  rename(latitude = coords.x2)
+```
+
+```{r}
+### All NER spring 2015 data
+
+utmcoor_ner_spr15 <- SpatialPoints(cbind(ner_filt_spring_15$Easting, ner_filt_spring_15$Northing), proj4string = CRS("+proj=utm +zone=12")) 
+
+longlatcoor_ner_spr15 <- spTransform(utmcoor_ner_spr15,CRS("+proj=longlat"))
+
+longlat_nerspr15_df <- data.frame(longlatcoor_ner_spr15)
+
+longlat_nerspr15_df$scientific_name <- c("Cervus canadensis")
+
+longlat_nerspr15_df <- longlat_nerspr15_df[, c(3, 1, 2)]
+
+gye_ner_spr15 <- longlat_nerspr15_df %>% 
+  rename(longitude = coords.x1) %>% # renamed lat/long columns for easier spatial analysis
+  rename(latitude = coords.x2)
+```
+
+```{r}
+### All southern GYE data (2008-2015)
+
+utmcoor_gye <- SpatialPoints(cbind(gye_collar$Easting, gye_collar$Northing), proj4string = CRS("+proj=utm +zone=12")) 
+
+longlatcoor_gye <- spTransform(utmcoor_gye,CRS("+proj=longlat"))
+
+longlat_gye_df <- data.frame(longlatcoor_gye)
+
+longlat_gye_df$scientific_name <- c("Cervus canadensis")
+
+longlat_gye_df <- longlat_gye_df[, c(3, 1, 2)]
+
+gye_all <- longlat_gye_df %>% 
+  rename(longitude = coords.x1) %>% # renamed lat/long columns for easier spatial analysis
+  rename(latitude = coords.x2)
+```
+
+```{r}
+### All spring southern GYE data
+
+utmcoor_gyespr <- SpatialPoints(cbind(gye_clr_spring$Easting, gye_clr_spring$Northing), proj4string = CRS("+proj=utm +zone=12")) 
+
+longlatcoor_gyespr <- spTransform(utmcoor_gyespr,CRS("+proj=longlat"))
+
+longlat_gyespr_df <- data.frame(longlatcoor_gyespr)
+
+longlat_gyespr_df$scientific_name <- c("Cervus canadensis")
+
+longlat_gyespr_df <- longlat_gyespr_df[, c(3, 1, 2)]
+
+gye_all_spring <- longlat_gyespr_df %>% 
+  rename(longitude = coords.x1) %>% # renamed lat/long columns for easier spatial analysis
+  rename(latitude = coords.x2)
+```
+
+```{r}
+# write.csv(gye_ner_wallace, here("maxent", "data", "gye_ner_wallace.csv"), row.names=FALSE)
+# write.csv(gye_ner_spring, here("maxent", "data", "gye_ner_spring.csv"), row.names=FALSE)
+# write.csv(gye_ner_15, here("maxent", "data", "gye_ner_15.csv"), row.names=FALSE)
+# write.csv(gye_ner_spr15, here("maxent", "data", "gye_ner_spr15.csv"), row.names=FALSE)
+# write.csv(gye_all, here("maxent", "data", "gye_all.csv"), row.names=FALSE)
+# write.csv(gye_all_spring, here("maxent", "data", "gye_all_spring.csv"), row.names=FALSE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
