@@ -1,0 +1,88 @@
+Contact Information
+Dr. Mary Meagher
+634 Cinnabar Basin Road
+Gardiner, MT 59030
+
+
+Collection Metadata
+The data span 1970 through July 1997. There were four aerial surveys per year 
+(Piper supercub, same pilot and observer with rare exceptions), weather and 
+desired timing permitting from 1970 through 1990. Thereafter surveys increased 
+to 9-10 per year, circumstances permitting. Flying weather required reasonably 
+wind-free, clear-to-partly-cloudy conditions park-wide, beginning 0800-0900 
+usually  to be ahead of the strong winds that often developed later in the day. 
+Surveys most commonly began with the northern range and proceeded 
+sequentially toward the east boundary and upper Lamar, Mirror Plateau and 
+Pelican Valley, Hayden Valley, the Firehole, and the west side. However wind 
+and/or ground-fog over open valleys sometimes required a change of route. The 
+same factors occasionally dictated a survey could not be completed in one day, 
+in which case the rest of the areas usually were flown the following day and the 
+data melded for a single flight total. Thus certain flights numbers in the data set 
+have observations on two dates.  Also, during the earlier years  the numbers 
+observed on the northern range by an elk researcher occasionally  were used 
+when the timing was suitable, rather than duplicate the effort. Surveys were 
+intended to locate all visible bison with the exception of wandering bulls that were 
+beyond the population-use areas in unknown and unpredictable sites. An 
+exceptionally sharp-eyed pilot made the overall and calf counts. The observer  
+cross-checked and recorded those numbers, group size and cohesiveness, 
+separated animals and their locations, and general conditions, Miscellaneous 
+data such as mortality, travel routes and timing, unusual habitat factors, etc. were 
+noted on occasion. All initial data entries were recorded manually and transferred 
+to field notebooks as soon as possible, usually the same day.
+
+
+Reference Metadata
+
+
+Year – Year of observation (70=1970, 71=1971…97=1997)
+
+Month – Month of observation (1=Jan., 2=Feb.…12=Dec)
+
+Day – Day within the month the observation was made (1-28,29,30,31)
+
+Time – Approximate time during the day the observation was made.  
+
+Flight – Ranked 1-151 by order of year, month, and day.
+
+Location Metadata
+
+EUTM - Map Coordinate east to west.
+
+NUTM – Map Coordinate north to south.
+
+Loc$ - General location of subset geographical areas of Yellowstone 
+National Park including Northern, Pelican, Hayden, Firehole, and Westside.
+
+Demographic Metadata
+
+Bisontotal – Summation of all individual bison within a given observation 
+(Bisontotal = bulls + calves + unknown)
+
+Calves – Number of calves per observation.  Subset of Bisontotal.
+
+Bulls – Number of bulls per observation.  Subset of Bisontotal.
+
+Dispersion/Cohesion – Measure of distance between animals in a group.
+1= Cluster Tight (.5 – 3 animal distances)
+2= Medium (3 – 10 animal distances)
+3=Loose (over 10 animal distances)
+
+Groupshape - Geometric form of the group
+1=globular
+2=linear
+
+Environment Metadata
+
+Habitat1 – Primary habitat for observation space (approximately 1 km2)
+
+Habitat2 – Secondary habitat for observation space 
+
+Habitat3 – Tertiary habitat for observation space 
+
+Habitat includes: 1=Sedge , 2=Upland , 3=Geothermal, 4=Trees, 5=subalpine, 
+6=creek/river,7=road, 8=willows, 9=1988 forest burn, 10=feedground
+
+Snowcover – A two dimensional aerial view of snow coverage across a 
+landscape.  0=no snow, 1=patch snow (openings on geothermal, south facing 
+exposures, and wind swept areas), and 2=snow covered landscapes.  
+
