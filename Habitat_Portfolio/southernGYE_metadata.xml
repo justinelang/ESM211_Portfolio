@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <idinfo>
+    <citation>
+      <citeinfo>
+        <origin>Paul C Cross</origin>
+        <origin>Brandon M Scurlock</origin>
+        <origin>Eric K Cole</origin>
+        <origin>Alyson B Courtemanch</origin>
+        <origin>Sarah R Dewey</origin>
+        <origin>Matthew J Kauffman</origin>
+        <origin>Jerod A Merkle</origin>
+        <pubdate>2017</pubdate>
+        <title>Elk GPS collar data in southern GYE 2007-2015</title>
+        <geoform>tabular digital data</geoform>
+        <pubinfo>
+          <pubplace>Reston, VA</pubplace>
+          <publish>U.S. Geological Survey</publish>
+        </pubinfo>
+        <onlink>https://doi.org/10.5066/F7474803</onlink>
+      </citeinfo>
+    </citation>
+    <descript>
+      <abstract>288 adult and yearling female elk were captured on 22 Wyoming winter supplemental elk feedgrounds and monitored with GPS collars during the brucellosis risk period (February – July) from 2007 to 2015. There were 4 to 64 individual elk per feedground and each elk was monitored for 1 to 2 years. Here we provide the unique identifier for each individual elk, the GPS location of the elk, the date/time stamp of the GPS location, and the feedground the elk was captured on in Wyoming.</abstract>
+      <purpose>These data were collected to assess the risk of brucellosis transmission between elk and cattle in this system. One of the major issues in assessing risk is understanding and predicting the space use of elk and how that is a function of weather conditions. Elk space use studies and how they may change over time are appropriate uses of the data. Actual brucellosis risk to cattle may change over time as elk populations and disease prevalence varies. The information we provide are based on data collected up to 2015, but may not be accurate as conditions change over time.</purpose>
+      <supplinf>For additional methodology, please refer to Merkle et al. 2017 (https://doi.org/10.1111/1365-2664.13022).</supplinf>
+    </descript>
+    <timeperd>
+      <timeinfo>
+        <rngdates>
+          <begdate>20070314</begdate>
+          <enddate>20150731</enddate>
+        </rngdates>
+      </timeinfo>
+      <current>ground condition</current>
+    </timeperd>
+    <status>
+      <progress>complete</progress>
+      <update>none planned</update>
+    </status>
+    <spdom>
+      <bounding>
+        <westbc>-111.01684570312501</westbc>
+        <eastbc>-108.52294921875001</eastbc>
+        <northbc>44.19795903948531</northbc>
+        <southbc>42.00032514831623</southbc>
+      </bounding>
+      <descgeog>western Wyoming</descgeog>
+    </spdom>
+    <keywords>
+      <theme>
+        <themekt>ISO 19115 Topic Category</themekt>
+        <themekey>biota</themekey>
+        <themekey>location</themekey>
+      </theme>
+      <theme>
+        <themekt>USGS Thesaurus</themekt>
+        <themekey>mammals</themekey>
+        <themekey>wildlife disease</themekey>
+      </theme>
+      <theme>
+        <themekt>None</themekt>
+        <themekey>GPS data</themekey>
+        <themekey>elk</themekey>
+        <themekey>Cervus canadensis</themekey>
+        <themekey>ungulate</themekey>
+        <themekey>movement</themekey>
+        <themekey>space use</themekey>
+        <themekey>cattle risk</themekey>
+      </theme>
+      <theme>
+        <themekt>USGS Metadata Identifier</themekt>
+        <themekey>USGS:59d90ceee4b05fe04cc9b0f2</themekey>
+      </theme>
+      <place>
+        <placekt>Common Geographic Areas</placekt>
+        <placekey>Wyoming</placekey>
+        <placekey>Lincoln</placekey>
+        <placekey>Teton</placekey>
+        <placekey>Sublette</placekey>
+        <placekey>Jackson</placekey>
+      </place>
+      <place>
+        <placekt>Geographic Names Information System</placekt>
+        <placekey>Grand Teton National Park</placekey>
+        <placekey>National Elk Refuge</placekey>
+      </place>
+    </keywords>
+    <accconst>None. Please see 'Distribution Info' for details.</accconst>
+    <useconst>None. Users are advised to read the data set's metadata thoroughly to understand appropriate use and data limitations.</useconst>
+    <ptcontac>
+      <cntinfo>
+        <cntperp>
+          <cntper>Paul C Cross</cntper>
+          <cntorg>U.S. Geological Survey</cntorg>
+        </cntperp>
+        <cntpos>Research Wildlife Biologist</cntpos>
+        <cntaddr>
+          <addrtype>Mailing and Physical</addrtype>
+          <address>2327 University Way, Suite 2</address>
+          <city>Bozeman</city>
+          <state>MT</state>
+          <postal>59715</postal>
+          <country>USA</country>
+        </cntaddr>
+        <cntvoice>406-994-6908</cntvoice>
+        <cntfax>406-994-6556</cntfax>
+        <cntemail>pcross@usgs.gov</cntemail>
+      </cntinfo>
+    </ptcontac>
+    <datacred>Jerod A. Merkle (Wyoming Cooperative Fish and Wildlife Research Unit, University of Wyoming) conducted the analysis. This work was supported by a U.S. Department of Agriculture National Institute of Food and Agriculture postdoctoral fellowship (2014-01928), National Science Foundation Ecology of Infectious Disease grant (DEB-1067129), the Greater Yellowstone Interagency Brucellosis Committee, Wyoming Game and Fish Department, U.S. Fish and Wildlife Service, and U.S. Geological Survey. We thank Wyoming Game and Fish Department and National Elk Refuge personnel who helped with collar deployment and data collection.</datacred>
+    <taxonomy>
+      <keywtax>
+        <taxonkt>USGS Biocomplexity Thesaurus</taxonkt>
+        <taxonkey>mammals</taxonkey>
+      </keywtax>
+      <taxonsys>
+        <classsys>
+          <classcit>
+            <citeinfo>
+              <origin>Johann Christian Polycarp Erxleben</origin>
+              <pubdate>1777</pubdate>
+              <title>Systema regni animalis per classes, ordines, genera, species, varietates</title>
+              <pubinfo>
+                <pubplace>Lipsiae, Germany</pubplace>
+                <publish>Impensis Weygandianis</publish>
+              </pubinfo>
+              <onlink>http://dx.doi.org/10.5962/bhl.title.15933</onlink>
+            </citeinfo>
+          </classcit>
+        </classsys>
+        <ider>
+          <cntinfo>
+            <cntperp>
+              <cntper>Paul C Cross</cntper>
+              <cntorg>U.S. Geological Survey</cntorg>
+            </cntperp>
+            <cntpos>Research Wildlife Biologist</cntpos>
+            <cntaddr>
+              <addrtype>Mailing and Physical</addrtype>
+              <address>2327 University Way, Suite 2</address>
+              <city>Bozeman</city>
+              <state>MT</state>
+              <postal>59715</postal>
+              <country>USA</country>
+            </cntaddr>
+            <cntvoice>406-994-6908</cntvoice>
+            <cntfax>406-994-6556</cntfax>
+            <cntemail>pcross@usgs.gov</cntemail>
+          </cntinfo>
+        </ider>
+        <taxonpro>expert knowledge</taxonpro>
+        <taxoncom>There were no unidentified materials. All individuals were identified as elk from expert knowledge in the field.</taxoncom>
+      </taxonsys>
+      <taxongen>All data describe elk (Cervus canadensis).</taxongen>
+      <taxoncl>
+        <taxonrn>Kingdom</taxonrn>
+        <taxonrv>Animalia</taxonrv>
+        <taxoncl>
+          <taxonrn>Subkingdom</taxonrn>
+          <taxonrv>Bilateria</taxonrv>
+          <taxoncl>
+            <taxonrn>Infrakingdom</taxonrn>
+            <taxonrv>Deuterostomia</taxonrv>
+            <taxoncl>
+              <taxonrn>Phylum</taxonrn>
+              <taxonrv>Chordata</taxonrv>
+              <taxoncl>
+                <taxonrn>Subphylum</taxonrn>
+                <taxonrv>Vertebrata</taxonrv>
+                <taxoncl>
+                  <taxonrn>Infraphylum</taxonrn>
+                  <taxonrv>Gnathostomata</taxonrv>
+                  <taxoncl>
+                    <taxonrn>Superclass</taxonrn>
+                    <taxonrv>Tetrapoda</taxonrv>
+                    <taxoncl>
+                      <taxonrn>Class</taxonrn>
+                      <taxonrv>Mammalia</taxonrv>
+                      <taxoncl>
+                        <taxonrn>Subclass</taxonrn>
+                        <taxonrv>Theria</taxonrv>
+                        <taxoncl>
+                          <taxonrn>Infraclass</taxonrn>
+                          <taxonrv>Eutheria</taxonrv>
+                          <taxoncl>
+                            <taxonrn>Order</taxonrn>
+                            <taxonrv>Artiodactyla</taxonrv>
+                            <taxoncl>
+                              <taxonrn>Family</taxonrn>
+                              <taxonrv>Cervidae</taxonrv>
+                              <taxoncl>
+                                <taxonrn>Subfamily</taxonrn>
+                                <taxonrv>Cervinae</taxonrv>
+                                <taxoncl>
+                                  <taxonrn>Genus</taxonrn>
+                                  <taxonrv>Cervus</taxonrv>
+                                  <taxoncl>
+                                    <taxonrn>Species</taxonrn>
+                                    <taxonrv>Cervus elaphus</taxonrv>
+                                    <taxoncl>
+                                      <taxonrn>Subspecies</taxonrn>
+                                      <taxonrv>Cervus elaphus canadensis</taxonrv>
+                                      <common>elk</common>
+                                    </taxoncl>
+                                  </taxoncl>
+                                </taxoncl>
+                              </taxoncl>
+                            </taxoncl>
+                          </taxoncl>
+                        </taxoncl>
+                      </taxoncl>
+                    </taxoncl>
+                  </taxoncl>
+                </taxoncl>
+              </taxoncl>
+            </taxoncl>
+          </taxoncl>
+        </taxoncl>
+      </taxoncl>
+    </taxonomy>
+  </idinfo>
+  <dataqual>
+    <attracc>
+      <attraccr>No formal attribute accuracy tests were conducted.</attraccr>
+    </attracc>
+    <logic>No formal logical accuracy tests were conducted.</logic>
+    <complete>Data set is considered complete for the information presented, as described in the abstract. Users are advised to read the rest of the metadata record carefully for additional details.</complete>
+    <posacc>
+      <horizpa>
+        <horizpar>A formal accuracy assessment of the horizontal positional information in the data set has not been conducted.</horizpar>
+      </horizpa>
+      <vertacc>
+        <vertaccr>A formal accuracy assessment of the vertical positional information in the data set has either not been conducted, or is not applicable.</vertaccr>
+      </vertacc>
+    </posacc>
+    <lineage>
+      <procstep>
+        <procdesc>The data were processed following a number of steps using program R. First, all GPS collar data collected after the month of July, and before the month of February, were removed. Second, we removed all GPS locations that were taken while supplemental feeding was taking place (using feeding start and end dates recorded by Wyoming Game and Fish Department). Third, we removed all locations that were taken on or near the half hour (i.e., some collars were collecting locations every 30 minutes). Fourth, we rounded the date/time stamp of each location to the nearest hour. Fifth, we subsampled the resulting database to 1 GPS location every 4 hours. Sixth, we randomly identified and then retained 1 GPS location per day per year per individual animal. Finally, for each randomly identified location (termed a source point), we also retained the subsequent location (termed a target point) and the previous location (which allowed us to calculate relative turning angle of the step which is made up of the source and target points).</procdesc>
+        <procdate>201701</procdate>
+        <proccont>
+          <cntinfo>
+            <cntperp>
+              <cntper>Jerod A Merkle</cntper>
+              <cntorg>Wyoming Cooperative Fish and Wildlife Research Unit, University of Wyoming</cntorg>
+            </cntperp>
+            <cntpos>Postdoctoral Fellow</cntpos>
+            <cntaddr>
+              <addrtype>Mailing and Physical</addrtype>
+              <address>Wyoming Cooperative Fish and Wildlife Research Unit, Dept. 3166, 1000 East University Ave, University of Wyoming</address>
+              <city>Laramie</city>
+              <state>Wyoming</state>
+              <postal>82071</postal>
+              <country>USA</country>
+            </cntaddr>
+            <cntvoice>307-766-5448</cntvoice>
+            <cntemail>jmerkle@uwyo.edu</cntemail>
+          </cntinfo>
+        </proccont>
+      </procstep>
+    </lineage>
+  </dataqual>
+  <spref>
+    <horizsys>
+      <planar>
+        <gridsys>
+          <gridsysn>Universal Transverse Mercator</gridsysn>
+          <utm>
+            <utmzone>12</utmzone>
+            <transmer>
+              <sfctrmer>0.9996</sfctrmer>
+              <longcm>-111.0</longcm>
+              <latprjo>0.0</latprjo>
+              <feast>500000.0</feast>
+              <fnorth>0.0</fnorth>
+            </transmer>
+          </utm>
+        </gridsys>
+        <planci>
+          <plance>coordinate pair</plance>
+          <coordrep>
+            <absres>0.6096</absres>
+            <ordres>0.6096</ordres>
+          </coordrep>
+          <plandu>meters</plandu>
+        </planci>
+      </planar>
+      <geodetic>
+        <horizdn>World Geodetic System 1984 (WGS 84)</horizdn>
+        <ellips>WGS_1984</ellips>
+        <semiaxis>6378137.0</semiaxis>
+        <denflat>298.257</denflat>
+      </geodetic>
+    </horizsys>
+  </spref>
+  <eainfo>
+    <detailed>
+      <enttyp>
+        <enttypl>Elk GPS collar data in southern GYE 2007-2015.csv</enttypl>
+        <enttypd>Comma Separate Value (CSV) file containing data</enttypd>
+        <enttypds>Producer defined</enttypds>
+      </enttyp>
+      <attr>
+        <attrlabl>AID</attrlabl>
+        <attrdef>Animal ID (unique identifier for each individual elk)</attrdef>
+        <attrdefs>Producer defined</attrdefs>
+        <attrdomv>
+          <rdom>
+            <rdommin>7</rdommin>
+            <rdommax>918</rdommax>
+          </rdom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Easting</attrlabl>
+        <attrdef>Easting geographic coordinate (WGS84 UTM Zone 12N)</attrdef>
+        <attrdefs>Producer defined</attrdefs>
+        <attrdomv>
+          <rdom>
+            <rdommin>495720.567</rdommin>
+            <rdommax>650249.9382</rdommax>
+            <attrunit>meters</attrunit>
+          </rdom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Northing</attrlabl>
+        <attrdef>Northing geographic coordinate (WGS84 UTM Zone 12N)</attrdef>
+        <attrdefs>Producer defined</attrdefs>
+        <attrdomv>
+          <rdom>
+            <rdommin>4709413.759</rdommin>
+            <rdommax>4904066.264</rdommax>
+            <attrunit>meters</attrunit>
+          </rdom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Date_Time_MST</attrlabl>
+        <attrdef>Date and time of the GPS location in the following format: Month/Day/Year Hour:Minute (in Mountain Standard Time)</attrdef>
+        <attrdefs>Producer defined</attrdefs>
+        <attrdomv>
+          <rdom>
+            <rdommin>3/14/2007 0:00</rdommin>
+            <rdommax>7/31/2015 10:00</rdommax>
+            <attrunit>minutes</attrunit>
+          </rdom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Feedground</attrlabl>
+        <attrdef>Represents the winter supplemental elk feedground the individual elk was captured on in Wyoming</attrdef>
+        <attrdefs>Producer defined</attrdefs>
+        <attrdomv>
+          <edom>
+            <edomv>Bench_Corral</edomv>
+            <edomvd>Wyoming state elk feedground located in Sublette County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Black_Butte</edomv>
+            <edomvd>Wyoming state elk feedground located in Sublette County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Camp_Creek</edomv>
+            <edomvd>Wyoming state elk feedground located in Teton County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Dell_Creek</edomv>
+            <edomvd>Wyoming state elk feedground located in Sublette County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Dog_Creek</edomv>
+            <edomvd>Wyoming state elk feedground located in Teton County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Fall_Creek</edomv>
+            <edomvd>Wyoming state elk feedground located in Sublette County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Finnegan</edomv>
+            <edomvd>Wyoming state elk feedground located in Sublette County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Forest_Park</edomv>
+            <edomvd>Wyoming state elk feedground located in Lincoln County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Franz</edomv>
+            <edomvd>Wyoming state elk feedground located in Sublette County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Green_River_Lakes</edomv>
+            <edomvd>Wyoming state elk feedground located in Sublette County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Greys_River</edomv>
+            <edomvd>Wyoming state elk feedground located in Lincoln County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Gros_Ventre</edomv>
+            <edomvd>Wyoming state elk feedgrounds located in Teton County, WY, USA that include Alkali, Fish Creek, and Patrol Cabin were combined into a single "Gros Ventre" feedground due to their close proximity to one another (&lt; 7 km)</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Horse_Creek</edomv>
+            <edomvd>Wyoming state elk feedground located in Teton County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Jewett</edomv>
+            <edomvd>Wyoming state elk feedground located in Sublette County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>McNeel</edomv>
+            <edomvd>Wyoming state elk feedground located in Sublette County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Muddy_Creek</edomv>
+            <edomvd>Wyoming state elk feedground located in Sublette County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>National_Elk_Refuge</edomv>
+            <edomvd>U.S. Fish and Wildlife Service National Wildlife Refuge located in Teton County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Scab_Creek</edomv>
+            <edomvd>Wyoming state elk feedground located in Sublette County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>Soda_Lake</edomv>
+            <edomvd>Wyoming state elk feedground located in Sublette County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <edom>
+            <edomv>South_Park</edomv>
+            <edomvd>Wyoming state elk feedground located in Teton County, WY, USA</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+      </attr>
+    </detailed>
+  </eainfo>
+  <distinfo>
+    <distrib>
+      <cntinfo>
+        <cntorgp>
+          <cntorg>U.S. Geological Survey - ScienceBase</cntorg>
+        </cntorgp>
+        <cntaddr>
+          <addrtype>mailing address</addrtype>
+          <address>Denver Federal Center, Building 810, Mail Stop 302</address>
+          <city>Denver</city>
+          <state>CO</state>
+          <postal>80225</postal>
+          <country>USA</country>
+        </cntaddr>
+        <cntvoice>1-888-275-8747</cntvoice>
+        <cntemail>sciencebase@usgs.gov</cntemail>
+      </cntinfo>
+    </distrib>
+    <distliab>Unless otherwise stated, all data, metadata, and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall the act of distribution constitute any such warranty.</distliab>
+    <stdorder>
+      <digform>
+        <digtinfo>
+          <formname>digital data</formname>
+        </digtinfo>
+        <digtopt>
+          <onlinopt>
+            <computer>
+              <networka>
+                <networkr>https://doi.org/10.5066/F7474803</networkr>
+              </networka>
+            </computer>
+          </onlinopt>
+        </digtopt>
+      </digform>
+      <fees>none</fees>
+    </stdorder>
+  </distinfo>
+  <metainfo>
+    <metd>20200826</metd>
+    <metc>
+      <cntinfo>
+        <cntperp>
+          <cntper>Paul C Cross</cntper>
+          <cntorg>U.S. Geological Survey</cntorg>
+        </cntperp>
+        <cntpos>Research Wildlife Biologist</cntpos>
+        <cntaddr>
+          <addrtype>Mailing and Physical</addrtype>
+          <address>2327 University Way, Suite 2</address>
+          <city>Bozeman</city>
+          <state>MT</state>
+          <postal>59715</postal>
+          <country>USA</country>
+        </cntaddr>
+        <cntvoice>406-994-6908</cntvoice>
+        <cntfax>406-994-6556</cntfax>
+        <cntemail>pcross@usgs.gov</cntemail>
+      </cntinfo>
+    </metc>
+    <metstdn>FGDC Biological Data Profile of the CDGSM</metstdn>
+    <metstdv>FGDC-STD-001.1-1999</metstdv>
+  </metainfo>
+</metadata>
