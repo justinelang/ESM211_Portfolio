@@ -21,7 +21,7 @@ library(ggmap)
 
 ```{r}
 # Read the csv file
-turtles <- read_csv(here("Habitat_Portfolio", "tracking_sample.csv"))
+turtles <- read_csv(here("Habitat_Portfolio", "other_data","tracking_sample.csv"))
 ```
 
 ```{r}

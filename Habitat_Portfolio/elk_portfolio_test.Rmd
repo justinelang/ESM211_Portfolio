@@ -1,0 +1,120 @@
+---
+title: "elk_portfolio_test"
+author: "Justine Lang"
+date: "2024-01-30"
+output: 
+  html_document: 
+    code_folding: show
+---
+
+```{r setup, echo = TRUE, warning = FALSE, message = FALSE, results = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, results = FALSE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(adehabitatHR)
+library(sp)
+library(scales)
+library(ggmap)
+```
+
+```{r}
+### Read the csv
+
+elk <- read_csv(here("Habitat_Portfolio", "elk_collar.csv"))
+
+elk <- elk %>% 
+  mutate_at("id", as.character)
+
+elk_ner <- elk %>% 
+  filter(feedground == "National_Elk_Refuge") %>% 
+  filter(id %in% c("631", "632", "633", "634", "635", "636"))
+```
+
+```{r}
+# SpatialPointsDataFrame objects don't like missing values
+# Remove two rows with NA's
+elk_ner <- elk_ner[!is.na(elk_ner$x) & !is.na(elk_ner$y),]
+
+# Only include three columns (id, x, and y coordinates) for making MCP's
+elk.sp <- elk_ner[, c("id", "x", "y")] 
+
+# Create a SpatialPointsDataFrame by defining the coordinates
+coordinates(elk.sp) <- c("x", "y")
+
+# Set the coordinate reference system (CRS)
+# More information on CRS here: 
+# https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf
+# The data are UTM points in WGS84 from zone 12N
+proj4string(elk.sp) <- CRS("+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs")
+```
+
+```{r}
+# Calculate MCPs for each elk
+elk.mcp <- mcp(elk.sp, percent = 100)
+
+# Examine output
+elk.mcp
+```
+
+```{r}
+# Plot
+# library(scales) # Helps make polygons partly transparent using the alpha argument below
+plot(elk.sp, col = as.factor(elk.sp@data$id), pch = 16)
+plot(elk.mcp, col = alpha(1:5, 0.5), add = TRUE)
+```
+
+```{r}
+# Calculate the MCP by including 50 to 100 percent of points
+hrs <- mcp.area(elk.sp, percent = seq(50, 100, by = 5))
+```
+
+```{r}
+hrs # examine dataframe
+```
+
+```{r}
+# Transform the point and MCP objects. 
+elk.spgeo <- spTransform(elk.sp, CRS("+proj=longlat"))
+elk.mcpgeo <- spTransform(elk.mcp, CRS("+proj=longlat"))
+
+register_stadiamaps(key = "abd38f6a-07a9-43fb-99fa-9288b2fdb209")
+
+mybasemap <- get_stadiamap(bbox = c(left = min(elk.spgeo@coords[,1])-0.005, 
+                                    bottom = min(elk.spgeo@coords[,2])-0.005, 
+                                    right = max(elk.spgeo@coords[,1])+0.005, 
+                                    top = max(elk.spgeo@coords[,2])+0.005), 
+                           zoom = 12)
+
+# Turn the spatial data frame of points into just a dataframe for plotting in ggmap
+elk.geo <- data.frame(elk.spgeo@coords, 
+                          id = elk.spgeo@data$id )
+
+mymap.hr <- ggmap(mybasemap) + 
+  geom_polygon(data = fortify(elk.mcpgeo),  
+               # Polygon layer needs to be "fortified" to add geometry to the dataframe
+              aes(long, lat, colour = id, fill = id),
+              alpha = 0.3) + # alpha sets the transparency
+  geom_point(data = elk.geo, 
+             aes(x = x, y = y, colour = id))  +
+  theme(legend.position = c(0.15, 0.80)) +
+  labs(x = "Longitude", y = "Latitude") +
+  scale_fill_manual(name = "Elk ID",
+                      values = c("red", "blue", "purple", "green", "orange", "yellow"),
+                      breaks = c("631", "632", "633", "634", "635", "636")) +
+  scale_colour_manual(name = "Elk ID",
+                      values = c("red", "blue", "purple", "green", "orange", "yellow"),
+                      breaks = c("631", "632", "633", "634", "635", "636"))
+mymap.hr
+```
+
+
+
+
+
+
+
+
+
+
