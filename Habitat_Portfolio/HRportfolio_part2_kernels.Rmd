@@ -1,0 +1,142 @@
+---
+title: "elk_portfolio_kernels"
+author: "Justine Lang"
+date: "2024-01-30"
+output: 
+  html_document: 
+    code_folding: show
+---
+
+```{r setup, echo = TRUE, warning = FALSE, message = FALSE, results = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, results = FALSE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(adehabitatHR)
+library(sp)
+```
+
+```{r}
+### Read the csv
+
+elk <- read_csv(here("Habitat_Portfolio", "elk_collar.csv"))
+
+elk <- elk %>% 
+  mutate_at("id", as.character)
+
+elk_ner <- elk %>% 
+  filter(feedground == "National_Elk_Refuge") %>% 
+  filter(id %in% c("631", "632", "633", "634", "635", "636"))
+```
+
+```{r}
+# SpatialPointsDataFrame objects don't like missing values
+# Remove two rows with NA's
+elk_ner <- elk_ner[!is.na(elk_ner$x) & !is.na(elk_ner$y),]
+
+# Only include three columns (id, x, and y coordinates) for making MCP's
+elk.sp <- elk_ner[, c("id", "x", "y")] 
+
+# Create a SpatialPointsDataFrame by defining the coordinates
+coordinates(elk.sp) <- c("x", "y")
+
+# Set the coordinate reference system (CRS)
+# More information on CRS here: 
+# https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf
+# The data are UTM points in WGS84 from zone 12N
+proj4string(elk.sp) <- CRS("+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs")
+```
+
+```{r}
+kernel.ref <- kernelUD(elk.sp, h = "href")  # href = the reference bandwidth
+image(kernel.ref) # plot
+```
+
+```{r}
+kernel.ref[[1]]@h # The smoothing factor is stored for each animal in the "h" slot
+```
+
+```{r}
+kernel.lscv <- kernelUD(elk.sp, h = "LSCV") # Least square cross validation
+```
+
+```{r}
+image(kernel.lscv) # plot
+```
+
+```{r}
+plotLSCV(kernel.lscv) # Look for a dip
+```
+
+```{r}
+elk.kernel.poly <- getverticeshr(kernel.ref, percent = 95) 
+print(elk.kernel.poly)  # returns the area of each polygon
+```
+
+```{r}
+color <- rep("white", nrow(elk.sp@data))
+  color[(elk.sp@data$id == "632")] <- "red"
+  color[(elk.sp@data$id == "633")] <- "green"
+  color[(elk.sp@data$id == "634")] <- "blue"
+  color[(elk.sp@data$id == "635")] <- "orange"
+  color[(elk.sp@data$id == "636")] <- "yellow"
+plot(elk.kernel.poly, col = elk.kernel.poly@data$id)
+  plot(elk.sp, add = TRUE, col = color, pch = 21)
+```
+
+```{r}
+fg_sample <- elk %>% 
+  filter(feedground %in% c("Forest_Park", "Horse_Creek"))
+
+# Only include three columns (id, x, and y coordinates) for making MCP's
+feed.sp <- fg_sample[, c("feedground", "x", "y")] 
+
+# Create a SpatialPointsDataFrame by defining the coordinates
+coordinates(feed.sp) <- c("x", "y")
+
+# Set the coordinate reference system (CRS)
+# More information on CRS here: 
+# https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf
+# The data are UTM points in WGS84 from zone 12N
+proj4string(feed.sp) <- CRS("+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs")
+```
+
+```{r}
+kernel.ref <- kernelUD(feed.sp, h = "href")  # href = the reference bandwidth
+image(kernel.ref) # plot
+```
+
+```{r}
+kernel.ref[[1]]@h # The smoothing factor is stored for each animal in the "h" slot
+```
+
+```{r}
+kernel.lscv <- kernelUD(feed.sp, h = "LSCV") # Least square cross validation
+```
+
+```{r}
+image(kernel.lscv) # plot
+```
+
+```{r}
+plotLSCV(kernel.lscv) # Look for a dip
+```
+
+```{r}
+feed.kernel.poly <- getverticeshr(kernel.ref, percent = 95) 
+print(feed.kernel.poly)  # returns the area of each polygon
+```
+
+```{r}
+color <- rep("red", nrow(feed.sp@data))
+  color[(feed.sp@data$feedground == "Horse_Creek")] <- "blue"
+plot(feed.kernel.poly, col = feed.kernel.poly@data$feedground)
+  plot(feed.sp, add = TRUE, col = color, pch = 21)
+```
+
+
+
+
+
+
