@@ -9,6 +9,11 @@ editor_options:
   chunk_output_type: inline
 ---
 
+
+#**First we're going to create the MCPs for the Elk data!!**
+
+
+#load in the packages we need
 ```{r setup, echo = TRUE, warning = FALSE, message = FALSE, results = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, results = FALSE)
 
@@ -29,9 +34,10 @@ library(ggmap)
 ```
 
 
+#read in the dataset of interest, in this case elk! & do some tidying of the data
 ```{r}
 ### Read the csv
-elk <- read_csv(here("elk_collar.csv"))
+elk <- read_csv("elk_collar.csv") #removed here
 
 ### Convert the elk ID column to character to prevent R from getting confused
 elk <- elk %>% 
@@ -39,10 +45,12 @@ elk <- elk %>%
 
 ### To start, let's filter to 6 elk from the National Elk Refuge
 elk_ner <- elk %>% 
-  filter(feedground == "National_Elk_Refuge") %>% 
-  filter(id %in% c("631", "632", "633", "634", "635", "636"))
+  filter(feedground == "National_Elk_Refuge") %>%  #select a feedground of interest
+  filter(id %in% c("631", "632", "633", "634", "635", "636")) #select id of elk of interest
 ```
 
+
+#now lets make our dataframe into a spatial dataframe
 ```{r}
 ### SpatialPointsDataFrame objects don't like missing values, so it helps to remove NA's
 elk_ner <- elk_ner[!is.na(elk_ner$x) & !is.na(elk_ner$y),]
@@ -58,21 +66,26 @@ coordinates(elk.sp) <- c("x", "y")
 proj4string(elk.sp) <- CRS("+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs")
 ```
 
+
+
+#calculate the areas of the MCPs for the elk - Change the Percentage of relocations being included in calculating the area of the MCP 
 ```{r}
 ### Calculate MCPs for each elk
-elk.mcp <- mcp(elk.sp, percent = 100)
+elk.mcp <- mcp(elk.sp, percent = 100) #change the percentage & see how the polygon shapes & area change below
 
 ### Examine output
 elk.mcp
 ```
 
+
+#lets visualize our elk MCPs
 ```{r}
 ### Plot
 ### library(scales) # Helps make polygons partly transparent using the alpha argument below
 plot(elk.sp, col = as.factor(elk.sp@data$id), pch = 16)
 plot(elk.mcp, col = alpha(1:5, 0.5), add = TRUE)
 ```
-
+#exploratory- home-range level and size- tells us how stable their home-range is 
 ```{r}
 ### Calculate the MCP by including 50 to 100 percent of points 
 hrs <- mcp.area(elk.sp, percent = seq(50, 100, by = 5))
@@ -82,9 +95,11 @@ hrs <- mcp.area(elk.sp, percent = seq(50, 100, by = 5))
 ```
 
 ```{r}
-hrs ### examine dataframe
+hrs ### examine dataframe of home-range size
 ```
 
+
+#Now lets make a more comphrehenive map of our elk MPCs
 ```{r}
 # Transform the point and MCP objects. 
 elk.spgeo <- spTransform(elk.sp, CRS("+proj=longlat"))
@@ -123,12 +138,23 @@ mymap.hr <- ggmap(mybasemap) +
 mymap.hr
 ```
 
-You can also calculate the habitat range for whole herds instead of individual animals. 
+
+#Porfolio Assignment Questions Part 1:
+1.How does the elk home range change relative to the different percentages of relocations being included? Based on what you know of elk movement, would it be suitable to include all relocation points? (Hint: are they a particularly mobile animal?)
+
+
+
+
+
+
+
+
+#OPTIONAL: You can also calculate the habitat range for whole herds instead of individual animals. It takes a bit of time and processing power to display the habitat ranges of whole herds on a map, but if you're feeling adventurous, feel free to select one or two fed herds and get mapping! You may need to adjust the map and legend dimensions, but the code is below. 
 
 ```{r}
 ### Let's filter to elk from 5 different feedgrounds
 fg_sample <- elk %>% 
-  filter(feedground %in% c("Forest_Park", "National_Elk_Refuge", "Horse_Creek", "Soda_Lake", "Dog_Creek"))
+  filter(feedground %in% c("Forest_Park", "National_Elk_Refuge", "Horse_Creek", "Soda_Lake", "Dog_Creek")) 
 
 ### Use feedground instead of individual elk IDs
 feed.sp <- fg_sample[, c("feedground", "x", "y")] 
@@ -164,7 +190,6 @@ hrs_fg <- mcp.area(feed.sp, percent = seq(50, 100, by = 5))
 hrs_fg ### examine dataframe
 ```
 
-It takes a bit of time and processing power to display the habitat ranges of whole herds on a map, but if you're feeling adventurous, feel free to select one or two fed herds and get mapping! You may need to adjust the map and legend dimensions, but the code is below. 
 
 ```{r}
 ### Transform the point and MCP objects. 

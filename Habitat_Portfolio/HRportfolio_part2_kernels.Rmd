@@ -7,6 +7,8 @@ output:
     code_folding: show
 ---
 
+#load the packages
+
 ```{r setup, echo = TRUE, warning = FALSE, message = FALSE, results = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, results = FALSE)
 
@@ -17,19 +19,22 @@ library(adehabitatHR)
 library(sp)
 ```
 
+
+#read in the elk data!
 ```{r}
 ### Let's start as we did before: read in the csv and filter to 6 elk from the NER
 
-elk <- read_csv(here("elk_collar.csv"))
+elk <- read_csv("elk_collar.csv")
 
 elk <- elk %>% 
   mutate_at("id", as.character)
 
 elk_ner <- elk %>% 
-  filter(feedground == "National_Elk_Refuge") %>% 
-  filter(id %in% c("631", "632", "633", "634", "635", "636"))
+  filter(feedground == "National_Elk_Refuge") %>%  
+  filter(id %in% c("631", "632", "633", "634", "635", "636")) 
 ```
 
+#now lets make our dataframe into a spatial dataframe
 ```{r}
 ### Same process creating your SpatialPointsDataFrame
 
@@ -42,6 +47,7 @@ coordinates(elk.sp) <- c("x", "y")
 proj4string(elk.sp) <- CRS("+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs")
 ```
 
+#lets select the h using the reference bandwidth
 ```{r}
 kernel.ref <- kernelUD(elk.sp, h = "href")  # href = the reference bandwidth
 image(kernel.ref) # plot
@@ -51,6 +57,7 @@ image(kernel.ref) # plot
 kernel.ref[[1]]@h # The smoothing factor is stored for each animal in the "h" slot
 ```
 
+#now lets try the other method of selecting h- Leaset square cross validation
 ```{r}
 kernel.lscv <- kernelUD(elk.sp, h = "LSCV") # Least square cross validation
 ```
@@ -68,6 +75,7 @@ elk.kernel.poly <- getverticeshr(kernel.ref, percent = 95)
 print(elk.kernel.poly)  # returns the area of each polygon
 ```
 
+#lets plot it 
 ```{r}
 color <- rep("white", nrow(elk.sp@data))
   color[(elk.sp@data$id == "632")] <- "red"
@@ -79,7 +87,13 @@ plot(elk.kernel.poly, col = elk.kernel.poly@data$id)
   plot(elk.sp, add = TRUE, col = color, pch = 21)
 ```
 
-Like with the MCPs, you can repeat this process with the fed elk herds instead of the individual animals, though your computer may get a bit of a workout attempting to create kernels for more than one or two herds at a time, especially through the LSCV method. For the sake of time, we'll skip this today, but if you happen to have time to kill, feel free to go for it!
+#Porfolio Assignment Questions Part 2:
+2. Compare the 2 methods of choosing "h". Which is more suitable for the elk?
+3. Explore how changing the feedground or elk individuals changes the home-range. What is one thing that stands out to you that is notable/different?
+
+
+
+#OPTIONAL- Like with the MCPs, you can repeat this process with the fed elk herds instead of the individual animals, though your computer may get a bit of a workout attempting to create kernels for more than one or two herds at a time, especially through the LSCV method. For the sake of time, we'll skip this today, but if you happen to have time to kill, feel free to go for it!
 
 
 
