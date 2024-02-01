@@ -5,73 +5,84 @@ date: "2024-01-30"
 output: 
   html_document: 
     code_folding: show
+editor_options: 
+  chunk_output_type: inline
 ---
 
 ```{r setup, echo = TRUE, warning = FALSE, message = FALSE, results = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, results = FALSE)
 
+### Our usual friends
 library(tidyverse)
 library(here)
 library(janitor)
+
+### The main package we're working with
 library(adehabitatHR)
+
+### For working with SpatialPointsDataFrames
 library(sp)
+
+### To help with display
 library(scales)
 library(ggmap)
 ```
 
+
 ```{r}
 ### Read the csv
+elk <- read_csv(here("elk_collar.csv"))
 
-elk <- read_csv(here("Habitat_Portfolio", "elk_collar.csv"))
-
+### Convert the elk ID column to character to prevent R from getting confused
 elk <- elk %>% 
   mutate_at("id", as.character)
 
+### To start, let's filter to 6 elk from the National Elk Refuge
 elk_ner <- elk %>% 
   filter(feedground == "National_Elk_Refuge") %>% 
   filter(id %in% c("631", "632", "633", "634", "635", "636"))
 ```
 
 ```{r}
-# SpatialPointsDataFrame objects don't like missing values
-# Remove two rows with NA's
+### SpatialPointsDataFrame objects don't like missing values, so it helps to remove NA's
 elk_ner <- elk_ner[!is.na(elk_ner$x) & !is.na(elk_ner$y),]
 
-# Only include three columns (id, x, and y coordinates) for making MCP's
+### Only need three columns (id, x, and y coordinates)
 elk.sp <- elk_ner[, c("id", "x", "y")] 
 
-# Create a SpatialPointsDataFrame by defining the coordinates
+### Define coordinates to create a SpatialPointsDataFrame 
 coordinates(elk.sp) <- c("x", "y")
 
-# Set the coordinate reference system (CRS)
-# More information on CRS here: 
-# https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf
-# The data are UTM points in WGS84 from zone 12N
+### Set the coordinate reference system (CRS)
+### The data are UTM points in WGS84 from zone 12N
 proj4string(elk.sp) <- CRS("+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs")
 ```
 
 ```{r}
-# Calculate MCPs for each elk
+### Calculate MCPs for each elk
 elk.mcp <- mcp(elk.sp, percent = 100)
 
-# Examine output
+### Examine output
 elk.mcp
 ```
 
 ```{r}
-# Plot
-# library(scales) # Helps make polygons partly transparent using the alpha argument below
+### Plot
+### library(scales) # Helps make polygons partly transparent using the alpha argument below
 plot(elk.sp, col = as.factor(elk.sp@data$id), pch = 16)
 plot(elk.mcp, col = alpha(1:5, 0.5), add = TRUE)
 ```
 
 ```{r}
-# Calculate the MCP by including 50 to 100 percent of points ###patchwork
+### Calculate the MCP by including 50 to 100 percent of points 
 hrs <- mcp.area(elk.sp, percent = seq(50, 100, by = 5))
+
+### Use "Plot Zoom" in the console or "Show in New Window" for inline output to see the full graphs
+### R doesn't like to display the graphs for more than a few animals/groups at a time; it will give you an error if you try to display too many
 ```
 
 ```{r}
-hrs # examine dataframe
+hrs ### examine dataframe
 ```
 
 ```{r}
@@ -79,7 +90,10 @@ hrs # examine dataframe
 elk.spgeo <- spTransform(elk.sp, CRS("+proj=longlat"))
 elk.mcpgeo <- spTransform(elk.mcp, CRS("+proj=longlat"))
 
-register_stadiamaps(key = "abd38f6a-07a9-43fb-99fa-9288b2fdb209")
+### To use the stadiamaps basemaps, you will need to generate your own API key
+### You can generate your own for free here: https://client.stadiamaps.com/signup/
+
+register_stadiamaps(key = "YourAPIKey")
 
 mybasemap <- get_stadiamap(bbox = c(left = min(elk.spgeo@coords[,1])-0.005, 
                                     bottom = min(elk.spgeo@coords[,2])-0.005, 
@@ -109,54 +123,55 @@ mymap.hr <- ggmap(mybasemap) +
 mymap.hr
 ```
 
+You can also calculate the habitat range for whole herds instead of individual animals. 
 
 ```{r}
+### Let's filter to elk from 5 different feedgrounds
 fg_sample <- elk %>% 
   filter(feedground %in% c("Forest_Park", "National_Elk_Refuge", "Horse_Creek", "Soda_Lake", "Dog_Creek"))
 
-# Only include three columns (id, x, and y coordinates) for making MCP's
+### Use feedground instead of individual elk IDs
 feed.sp <- fg_sample[, c("feedground", "x", "y")] 
 
-# Create a SpatialPointsDataFrame by defining the coordinates
+### Create a SpatialPointsDataFrame by defining the coordinates
 coordinates(feed.sp) <- c("x", "y")
 
-# Set the coordinate reference system (CRS)
-# More information on CRS here: 
-# https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf
-# The data are UTM points in WGS84 from zone 12N
+### Set the coordinate reference system (CRS)
 proj4string(feed.sp) <- CRS("+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs")
 ```
 
 ```{r}
-# Calculate MCPs for each fed elk herd
+### Calculate MCPs for each fed elk herd
 feed.mcp <- mcp(feed.sp, percent = 100)
 
-# Examine output
+### Examine output
 feed.mcp
 ```
 
 ```{r}
-# Plot
-# library(scales) # Helps make polygons partly transparent using the alpha argument below
+### Plot
+### library(scales) # Helps make polygons partly transparent using the alpha argument below
 plot(feed.sp, col = as.factor(feed.sp@data$feedground), pch = 16)
 plot(feed.mcp, col = alpha(1:5, 0.5), add = TRUE)
 ```
 
 ```{r}
-# Calculate the MCP by including 50 to 100 percent of points
+### Calculate the MCP by including 50 to 100 percent of points
 hrs_fg <- mcp.area(feed.sp, percent = seq(50, 100, by = 5))
 ```
 
 ```{r}
-hrs_fg # examine dataframe
+hrs_fg ### examine dataframe
 ```
 
+It takes a bit of time and processing power to display the habitat ranges of whole herds on a map, but if you're feeling adventurous, feel free to select one or two fed herds and get mapping! You may need to adjust the map and legend dimensions, but the code is below. 
+
 ```{r}
-# Transform the point and MCP objects. 
+### Transform the point and MCP objects. 
 feed.spgeo <- spTransform(feed.sp, CRS("+proj=longlat"))
 feed.mcpgeo <- spTransform(feed.mcp, CRS("+proj=longlat"))
 
-register_stadiamaps(key = "abd38f6a-07a9-43fb-99fa-9288b2fdb209")
+register_stadiamaps(key = "YourAPIKey")
 
 mybasemap_fg <- get_stadiamap(bbox = c(left = min(feed.spgeo@coords[,1])-0.005, 
                                     bottom = min(feed.spgeo@coords[,2])-0.005, 
@@ -164,15 +179,15 @@ mybasemap_fg <- get_stadiamap(bbox = c(left = min(feed.spgeo@coords[,1])-0.005,
                                     top = max(feed.spgeo@coords[,2])+0.005), 
                            zoom = 12)
 
-# Turn the spatial data frame of points into just a dataframe for plotting in ggmap
+### Turn the spatial data frame of points into just a dataframe for plotting in ggmap
 feed.geo <- data.frame(feed.spgeo@coords, 
                           id = feed.spgeo@data$feedground )
 
 mymap.hr_fg <- ggmap(mybasemap_fg) + 
   geom_polygon(data = fortify(feed.mcpgeo),  
-               # Polygon layer needs to be "fortified" to add geometry to the dataframe
+               ### Polygon layer needs to be "fortified" to add geometry to the dataframe
               aes(long, lat, colour = id, fill = id),
-              alpha = 0.3) + # alpha sets the transparency
+              alpha = 0.3) + ### alpha sets the transparency
   geom_point(data = feed.geo, 
              aes(x = x, y = y, colour = id))  +
   theme(legend.position = c(0.15, 0.80)) +
