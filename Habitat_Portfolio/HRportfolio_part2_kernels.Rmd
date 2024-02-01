@@ -19,6 +19,7 @@ library(adehabitatHR)
 library(sp)
 ```
 
+Creating kernels involves the same initial steps as creating MCPs. Like before, we'll start with 6 elk from the National Elk Refuge and create our SpatialPointsDataFrame. 
 
 #read in the elk data!
 ```{r}
@@ -48,6 +49,9 @@ proj4string(elk.sp) <- CRS("+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs")
 ```
 
 #lets select the h using the reference bandwidth
+
+Use the `kernelUD` function to create our kernels. There are multiple approaches to choosing h. The default for this function is "reference bandwidth," which works relatively well with most telemetry data. The downside is that it tends towards "oversmoothing," meaning it often estimates a larger home range than other methods of choosing h. 
+
 ```{r}
 kernel.ref <- kernelUD(elk.sp, h = "href")  # href = the reference bandwidth
 image(kernel.ref) # plot
@@ -57,18 +61,25 @@ image(kernel.ref) # plot
 kernel.ref[[1]]@h # The smoothing factor is stored for each animal in the "h" slot
 ```
 
-#now lets try the other method of selecting h- Leaset square cross validation
+#now lets try the other method of selecting h- Least squares cross validation
+
+A second common method of choosing h is "least squares cross validation," which minimizes the error by comparing the prediction from all data points to the data minus each point. It works especially well if you have GPS collar data with frequently collected locations. However, it may not be as appropriate for infrequent relocation data (every few days or less). 
+
 ```{r}
-kernel.lscv <- kernelUD(elk.sp, h = "LSCV") # Least square cross validation
+kernel.lscv <- kernelUD(elk.sp, h = "LSCV") ### Least squares cross validation
 ```
 
 ```{r}
-image(kernel.lscv) # plot
+image(kernel.lscv) ### plot
 ```
 
+You can visually inspect a plot of the LSCV kernels to see how well this method might fit your data. Ideally, you want to look for a dip in the CV value and the h value that corresponds to the minimum CV is used. If there is no minimum (no dip), this can sometimes lead to errors in plotting the kernels. If an animal's habitat is fragmented or if the relocation data is otherwise infrequent, then the LSCV method may not be as appropriate for the data. 
+
 ```{r}
-plotLSCV(kernel.lscv) # Look for a dip
+plotLSCV(kernel.lscv) ### Look for a dip
 ```
+
+Use the `getverticeshr` function to measure home ranges by setting a percentage of the distribution within the contour lines. A 95% distribution within the contour is the default, but it can be manually changed, along with the default units (hectares are the default output). Like with the MCPs, knowing a species' biology is important in selecting the percentage. A 95% distribution may be ideal for many reptiles and amphibians but not necessarily for other types of animals. 
 
 ```{r}
 elk.kernel.poly <- getverticeshr(kernel.ref, percent = 95) 
@@ -88,7 +99,7 @@ plot(elk.kernel.poly, col = elk.kernel.poly@data$id)
 ```
 
 #Porfolio Assignment Questions Part 2:
-2. Compare the 2 methods of choosing "h". Which is more suitable for the elk?
+2. Compare the plots from the 2 methods of choosing "h". Which is more suitable for the elk?
 3. Explore how changing the feedground or elk individuals changes the home-range. What is one thing that stands out to you that is notable/different?
 
 
