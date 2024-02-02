@@ -8,7 +8,7 @@ library(dplyr)
 library(tidyverse)
 
 #load in the bison data
-bison<- 
+bison <- read_csv(here("forcast_glarma", "data", "bison_copy.csv"))
   
 #add an intercept 
 bison$intercept<-as.integer(1)
@@ -22,13 +22,29 @@ x0 <- as.matrix(x0) # turns x0 into a matrix
 bison_null_lag <- glarma(y, x0, phiLags = c(1), type = "Poi", method = "FS",
                               residuals = "Pearson", maxit = 100, grad = 1e-6)
 
+bison_null_lag2 <- glarma(y, x0, phiLags = c(2), type = "Poi", method = "FS",
+                         residuals = "Pearson", maxit = 100, grad = 1e-6)
+
+bison_null_lag7 <- glarma(y, x0, phiLags = c(7), type = "Poi", method = "FS",
+                          residuals = "Pearson", maxit = 100, grad = 1e-6)
+
 # 1. Visually compare the plots. Which looks like the best fit?
-plot.glarma(bison_null_lag) #if you have an error in plot.window for the last plot, it's okay to ignore 
+plot.glarma(bison_null_lag) #if you have an error in plot.window for the last plot, it's okay to ignore
+plot.glarma(bison_null_lag2)
+plot.glarma(bison_null_lag7)
+
+### Visually, the first one with the time lag of 1 looks like the best fit. 
 
 # 2. Compare the AIC for the models. Which is actually the best fit? 
 summary(bison_null_lag)
+summary(bison_null_lag2)
+summary(bison_null_lag7)
+
+### Based on the lowest AIC, the second model (time lag of 2) has the best fit (AIC: 6684.275)
 
 # 3. Create a model with major events factored in and compare it with the best fit model identified in question 2. Is the model with major events a better fit? 
+
+### The model with major events factored in has a lower AIC (6265.411), which suggests it's a better fit
 
 #Add intercept and major events
 bison$major_events <- as.integer(0)
@@ -42,7 +58,7 @@ x1 <- bison %>% select(intercept, major_events) # x1 explanatory variables, pres
 x1 <- as.matrix(x1) #turns x1 into a matrix
 
 #Create the model with major events. Make the lag the same as the best fit model from question 2 
-bison_exp_lag <- glarma(y, x1, phiLags = c(1), type = "Poi", method = "FS", 
+bison_exp_lag <- glarma(y, x1, phiLags = c(2), type = "Poi", method = "FS", 
                              residuals = "Pearson", maxit = 100, grad = 1e-6)
 #summary 
 summary(bison_exp_lag)
