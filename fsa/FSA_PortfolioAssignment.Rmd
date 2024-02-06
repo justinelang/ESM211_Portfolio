@@ -1,0 +1,244 @@
+---
+title: "FSAPortfolioAssignment"
+output: html_document
+date: "2024-02-05"
+---
+---
+title: "FSA_ExampleCodeAndPortfolioAssignment"
+output: html_document
+date: "2024-02-05"
+---
+
+Portfolio assignment questions are at the end of the CatchCurve and the Depletion function sections. There is not a portfolio assignment with the Weight-Length example, but the code is here if you want to try it! There are a total of four questions. 
+
+## Load in the necessary pacakges for all three examples
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#the main package
+library(FSA)
+#this package contains data compatible with this package
+library(FSAdata)
+#for data manipulation
+library(tidyverse)
+library(stringr)
+library(janitor)
+```
+
+#############################################################
+## Weight-length example 
+
+load in the data, which comes from the FSAdata package above
+```{r}
+data(InchLake2)
+```
+
+clean data for example   
+```{r}
+#let's look at the Bluegill data, which was a catch and release sample from a lake in Wisconsin. 
+
+#this data has fish length in inches and weight in grams. recall for relative weights you need to be fully in  english or metric units. 
+
+#convert lengths to mm in a new column called length_mm
+InchLake2$length_mm <- round(InchLake2$length*25.4,0) 
+
+#look specifically at Bluegill fish, and from the year 2007, to get a snapshot of how the population was doing at that particular time
+bluegill_2007 <- InchLake2 %>% 
+  filter(species == "Bluegill", year == "2007") 
+```
+
+compute relative weight using wrAdd(), 
+```{r}
+# you can manually compute relative weight (see the vignette for that), but FSA gives you a tool to do that more easily: 
+
+#wrAdd() calculates the relative weight for each fish based on the standard weight equation for that species 
+bluegill_2007_weights <- wrAdd(weight~length_mm+species, data=bluegill_2007) #calculates relative weight 
+
+#add to the dataframe 
+bluegill_2007 <- bluegill_2007 %>% 
+  mutate(relative_weight = bluegill_2007_weights)
+```
+
+interpret what the relative weights mean 
+```{r}
+wr_2007 <- mean(bluegill_2007$relative_weight, na.rm = TRUE)
+wr_2007
+
+#relative weight below 100 indicates the fish/population is skinnier than expected for that species, indicating a potentially unhealthy population and environmental conditions that aren't favorable 
+#relative weight above 100 indicates the fish/population is fatter than expected for that species, indicating a healthy population and favorable environmental conditions 
+```
+
+find the average relative weight by size class 
+```{r}
+#for bluegill research groups them into the following classes: 
+## <8 cm 
+## <15 cm
+## <20 cm
+## <25 cm 
+## <30 cm 
+#approximate length at maturity for bluegill is 15cm, so the first two size classes are juveniles 
+
+#categorize each fish into its size class 
+bluegill_2007 <- bluegill_2007 %>% 
+  mutate(class = ifelse(length_mm < 80, "young_of_year", ifelse(length_mm < 150, "juvenile", ifelse(length_mm < 200, "adult_1", ifelse(length_mm < 250, "adult_2", "adult_3")))))
+
+#the relative weight function doesn't work for fish in the young of year class for this species (they're too short), so we can compare juveniles to different classes of adults 
+
+bluegill_2007_summary <- bluegill_2007 %>% 
+  group_by(class) %>%
+  summarize(mean_relative_weight = mean(relative_weight, na.rm = TRUE))
+
+bluegill_2007_summary
+```
+
+######################################################################
+## CatchCurve example
+
+
+let's grab the data and process it!
+
+We need a dataframe that contains age and catch (both are numerics)
+```{r}
+#can use this function from FSAdata to find data that is compatible with the function
+help.search("Catch curve", package=c("FSAdata","FSA"))
+
+#we are going to use data of estimated catch-at-age for Gulf Menhaden from 1964-2004
+data<-FSAdata::Menhaden1 %>% 
+  #pivot the data to get it in the required format
+  pivot_longer(cols = age0:age6, names_to = "age", values_to = "ct") %>% 
+  #then use group by and summarize to get one total catch value by age class
+  group_by(age) %>% summarise(catch=sum(ct))
+
+#use string manipulations to remove the leading age_ from the values in the age column
+data$age<-str_replace_all(data$age, "age", "")
+
+#convert columns to numerics
+data$age<-as.numeric(data$age)
+
+#take the log of catch
+data$logct <- log(data$catch)
+
+#examine the structure of the dataframe
+str(data)
+```
+
+Plot the catch curve for this data to assess which ages fall on the descending limb of the catch curve.
+```{r}
+plot(logct~age,data=data,ylab="log(Catch)",pch=19)
+```
+
+Non-weighted regression
+
+Now, you can use this information in the catchCurve function
+```{r}
+#we will use years 1-6
+results <- FSA::catchCurve(catch~age,data=data,ages2use=1:6)
+
+#show the estimated values of Z and A (and std. deviation)
+#Z is the instantaneous mortality rate (think slope of line)
+#A is the annual mortality rate
+summary(results)
+
+#show the confidence intervals associated with these values
+confint(results)
+
+#plot the points with the results for Z and A
+plot(results)
+
+```
+
+Weighted Regression
+
+The use of catchCurve in the previous chunk assigned equal weight to fish of all ages, but Maceina and Bettoli (1998) suggested that a weighted regression should be used with the catch-curve method in order to reduce the relative impact of older ages with fewer fish. The use of use.weights=TRUE satisfies this.
+```{r}
+
+weighted_results <- FSA::catchCurve(catch~age,data=data,
+                                    ages2use=2:6,use.weights=TRUE)
+
+summary(weighted_results)
+
+confint(weighted_results)
+
+plot(weighted_results)
+```
+
+## Portfolio Question:
+
+How do the estimates of Z and A change between between the weighted and non-weighted regressions? How does the confidence interval change?
+
+
+######################################################################
+## Depletion example 
+
+Welcome to the FSA function depletion()!!!!
+
+This function can be used to estimate the initial population size (N0) for a closed population (aka no immigration, emmigration, mortatlity, or recruitment).
+
+There are three methods for estimating N0: the Leslie Method, DeLury Method, and K-Pass Method
+
+load in the depletion data!
+
+If you go to the help window and click on the depletion package, you will also find details about the Leslie and DeLury methods.
+```{r}
+help.search("depletion", package=c("FSAdata","FSA"))
+
+#we are going to use the catch and effort snapper data 
+#there are 3 different species within this data set, all with the same effort. We are going to focus on Pristipomoides zonatus species. 
+#effort = fishing effort (line-hours of a bottom hand-line)
+
+snapper <- FSAdata::Pathfinder
+snapper_pzonatus <-snapper %>% clean_names() 
+```
+
+Now to start with the Leslie Method!
+```{r}
+#grab the data use the depletion() to calculate N0 and q
+leslie <- with(snapper_pzonatus, depletion(pzonatus,effort,method="Leslie",Ricker.mod = TRUE)) #the ricker.mod is a modification that is used within the equation
+summary(leslie) 
+#remember that N0 = initial population size and q = catchability coefficient or the fraction of the population that is removed by one unit of fishing effort
+
+#find the confidence intervals of this data
+confint(leslie)
+
+#plot it
+plot(leslie)
+```
+The initial population size of the Pristipomoides zonatus is 1066. 
+
+Now for the DeLury Method!
+```{r}
+#we will use the same set of data and species for this method in order to compare/contrast them
+delury <- with(snapper_pzonatus, depletion(pzonatus, effort, method="Delury", Ricker.mod = TRUE))
+summary(delury)
+
+confint(delury)
+
+plot(delury)
+```
+The DeLury Method finds that the inital population size of Pristipomoides zonatus is 1077, so 11 more than the Leslie Method as well as a slight decrease in q!
+
+Now for the K-Pass Method
+```{r}
+#again, we are going to use the snapper Pristipomoides zonatus data, but this time we only need catch data
+#for this method, we will still get N0 but will also get p which is probability of capture
+
+k_pass <- with(snapper_pzonatus, removal(pzonatus)) 
+summary(k_pass)
+
+confint(k_pass)
+```
+The K-Pass Method determined that N0 is 985, but does have an upper bound of 1077. p=0.1
+
+## Portfolio Questions: 
+
+Grab a new set of data and use the Leslie, DeLury, and K-Pass methods to calculate the initial population size! Answer the following questions:
+
+1. Compare and contrast the initial population sizes between the three methods
+2. Why are the Leslie and DeLury methods not valid at estimating N0? 
+3. What values can you look at to determine the reliability of the data? (Hint: Think back to what we learned about statistics in 206)
+
+
+
+
+
+
