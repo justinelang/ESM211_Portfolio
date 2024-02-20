@@ -1,0 +1,25 @@
+---
+title: "Pirate Test"
+author: "Justine Lang"
+date: "2024-02-20"
+output: 
+  html_document: 
+    code_folding: hide
+---
+
+```{r setup, echo = TRUE, results = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, results = FALSE, message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(yarrr)
+```
+
+```{r}
+view(pirates)
+```
+
+```{r}
+view(auction)
+```
+
+
