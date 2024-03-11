@@ -1,28 +1,20 @@
 ---
-title: "Portfolio1"
+title: "Portfolio 1: Time Series"
 author: "Justine Lang"
-date: "2024-01-16"
+date: "2024-03-11"
 output: 
   html_document: 
-    code_folding: hide
+    code_folding: show
 ---
 
-```{r setup, echo = TRUE, warning = FALSE, results = FALSE, message = FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, results = FALSE, message = FALSE)
+```{r setup, echo = TRUE, warning = FALSE, message = FALSE, results = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, results = FALSE)
 
 library(tidyverse)
 library(janitor)
 library(here)
-library(ebirdst)
 ```
 
-```{r}
-# set_ebirdst_access_key("6pmmmj5a1erm")
-```
-
-```{r}
-sals <- read_csv(here("Portfolio1", "sstspa_regional_2022.csv"))
-```
 
 
 
