@@ -1,5 +1,5 @@
 ---
-title: "FSA Portfolio Assignment"
+title: "Portfolio 6: FSA"
 output: 
   html_document: 
     code_folding: show
@@ -21,6 +21,10 @@ library(tidyverse)
 library(stringr)
 library(janitor)
 ```
+
+FSA: Fisheries Stock Assessment 
+
+This portfolio covers a lot of the package's main uses, though there are certainly more. A lot of useful data corresponds with it. 
 
 #############################################################
 ## Weight-length example 
@@ -65,6 +69,8 @@ wr_2007
 #relative weight above 100 indicates the fish/population is fatter than expected for that species, indicating a healthy population and favorable environmental conditions 
 ```
 
+In this case, the mean relative weight is below 100 (88.67), which suggests the bluegill population weighs less than expected. This brings up concerns for the population's health and indicates a closer look should probably be taken at the surrounding environmental conditions. 
+
 find the average relative weight by size class 
 ```{r}
 #for bluegill research groups them into the following classes: 
@@ -87,6 +93,8 @@ bluegill_2007_summary <- bluegill_2007 %>%
 
 bluegill_2007_summary
 ```
+
+Skinny fish!
 
 ######################################################################
 ## CatchCurve example
@@ -123,6 +131,8 @@ Plot the catch curve for this data to assess which ages fall on the descending l
 ```{r}
 plot(logct~age,data=data,ylab="log(Catch)",pch=19)
 ```
+
+Most ages (after 1) are on the descending limb of the catch curve. 
 
 Non-weighted regression
 
@@ -163,6 +173,8 @@ plot(weighted_results)
 
 How do the estimates of Z and A change between between the weighted and non-weighted regressions? How does the confidence interval change?
 
+Z and A increase some with the weighted regressions, which is interesting, especially since we're shifting how the models incorporate older fish. There is a lower standard error, though, leading to a smaller confidence interval. 
+
 
 ######################################################################
 ## Depletion example 
@@ -187,6 +199,10 @@ snapper <- FSAdata::Pathfinder
 snapper_pzonatus <-snapper %>% clean_names() 
 ```
 
+```{r}
+snapper_pauricilla <-snapper %>% clean_names() 
+```
+
 Now to start with the Leslie Method!
 ```{r}
 #grab the data use the depletion() to calculate N0 and q
@@ -200,7 +216,23 @@ confint(leslie)
 #plot it
 plot(leslie)
 ```
+
 The initial population size of the Pristipomoides zonatus is 1066. 
+
+```{r}
+#grab the data use the depletion() to calculate N0 and q
+leslie2 <- with(snapper_pauricilla, depletion(pauricilla,effort,method="Leslie",Ricker.mod = TRUE)) #the ricker.mod is a modification that is used within the equation
+summary(leslie2) 
+#remember that N0 = initial population size and q = catchability coefficient or the fraction of the population that is removed by one unit of fishing effort
+
+#find the confidence intervals of this data
+confint(leslie2)
+
+#plot it
+plot(leslie2)
+```
+
+A smaller population with a lot more variability. 
 
 Now for the DeLury Method!
 ```{r}
@@ -212,7 +244,20 @@ confint(delury)
 
 plot(delury)
 ```
+
 The DeLury Method finds that the inital population size of Pristipomoides zonatus is 1077, so 11 more than the Leslie Method as well as a slight decrease in q!
+
+```{r}
+#we will use the same set of data and species for this method in order to compare/contrast them
+delury2 <- with(snapper_pauricilla, depletion(pauricilla, effort, method="Delury", Ricker.mod = TRUE))
+summary(delury2)
+
+confint(delury2)
+
+plot(delury2)
+```
+
+Also a higher N0 than the Leslie method. 
 
 Now for the K-Pass Method
 ```{r}
@@ -226,13 +271,32 @@ confint(k_pass)
 ```
 The K-Pass Method determined that N0 is 985, but does have an upper bound of 1077. p=0.1
 
+```{r}
+#for this method, we will still get N0 but will also get p which is probability of capture
+
+k_pass2 <- with(snapper_pauricilla, removal(pauricilla)) 
+summary(k_pass2)
+
+confint(k_pass2)
+```
+This actually had a higher N0 value than I was expecting. K-pass didn't work as well here, which makes sense; it is more difficult to see a trend with *Pauricilla*. 
+
+
 ## Portfolio Questions: 
 
 Grab a new set of data and use the Leslie, DeLury, and K-Pass methods to calculate the initial population size! Answer the following questions:
 
 1. Compare and contrast the initial population sizes between the three methods
+
+Overall, K-Pass tends to estimate the lowest inital N0 of the three, while DeLury tends to estimate the highest, though it of course depends on the dataset. 
+
 2. Why are the Leslie and DeLury methods not valid at estimating N0? 
+
+The Leslie and DeLury methods have a much larger standard error and bigger confidence interval than the K-Pass method, which does make me question the results, though the estimates they provide still seem roughly in the ballpark of each other. 
+
 3. What values can you look at to determine the reliability of the data? (Hint: Think back to what we learned about statistics in 206)
+
+The standard errors and confidence intervals that the models provide are useful for assessing the reliability of the data and how well they fit. A visual inspection of the data and graphs also provides a good sanity check, especially if you have a good understanding of the values that are typical of a species. 
 
 
 
