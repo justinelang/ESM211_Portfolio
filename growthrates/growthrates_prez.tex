@@ -1,0 +1,707 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usetheme[]{Singapore}
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\newif\ifbibliography
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={growthrates R package},
+  pdfauthor={Linus Blomqvist},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{growthrates R package}
+\subtitle{ESM 211 Winter 2024}
+\author{Linus Blomqvist}
+\date{}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}[fragile]{What does the package do?}
+\protect\hypertarget{what-does-the-package-do}{}
+\begin{itemize}
+\tightlist
+\item
+  \texttt{growthrates} offers various ways of assessing growth rates
+  (and other growth parameters) in populations
+\item
+  For example, finding the \(r\) in an exponential growth function, or
+  \(r_{max}\) and \(K\) in a logistic growth function
+\item
+  Can also estimate dose response curves
+\item
+  It doesn't have its own model-fitting routines, but rather serves as a
+  convenient wrapper for other packages
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Application}
+\protect\hypertarget{application}{}
+\begin{itemize}
+\tightlist
+\item
+  The models can be applied to any type of population, from microbes to
+  bison
+\item
+  For the simplest applications, all you need is a time series of
+  population size
+\item
+  Can also handle multiple time series from a single experiment (see
+  example)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Example}
+\protect\hypertarget{example}{}
+\begin{itemize}
+\tightlist
+\item
+  I will use a dataset on bacterial growth that comes with the package
+\item
+  Three strains of bacteria (D = Donor, R = Recipient, T =
+  transconjugant)
+\item
+  Different concentrations of the antibiotic tetracycline
+\item
+  Read off at 31 different times (0:30)
+\item
+  Two replicates
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Load, inspect, subsample data}
+\protect\hypertarget{load-inspect-subsample-data}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load dataset and show summary}
+\FunctionTok{data}\NormalTok{(bactgrowth)}
+\FunctionTok{summary}\NormalTok{(bactgrowth)}
+
+\CommentTok{\# Create subsample to fit graphs on one page}
+\NormalTok{bactgrowth\_small }\OtherTok{\textless{}{-}}\NormalTok{ bactgrowth }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(conc }\SpecialCharTok{\%in\%} \FunctionTok{sample}\NormalTok{(conc, }\DecValTok{4}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Plot data}
+\protect\hypertarget{plot-data}{}
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-3-1.pdf}
+\end{frame}
+
+\begin{frame}[fragile]{Simplest case: single dataset (time series)}
+\protect\hypertarget{simplest-case-single-dataset-time-series}{}
+\begin{itemize}
+\tightlist
+\item
+  Three functions: \texttt{fit\_easylinear}, \texttt{fit\_growthmodels},
+  and \texttt{fit\_splines}
+\item
+  For single dataset (just one growth curve), need to subset data
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Subset bactgrowth data}
+\NormalTok{splitted.data }\OtherTok{\textless{}{-}} \FunctionTok{multisplit}\NormalTok{(bactgrowth, }
+                            \FunctionTok{c}\NormalTok{(}\StringTok{"strain"}\NormalTok{, }\StringTok{"conc"}\NormalTok{, }\StringTok{"replicate"}\NormalTok{))}
+\NormalTok{dat }\OtherTok{\textless{}{-}}\NormalTok{ splitted.data[[}\DecValTok{1}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+This includes only strain D, replicate 1, and concentration 0
+\end{frame}
+
+\begin{frame}[fragile]{Inspect dataset for single growth curve}
+\protect\hypertarget{inspect-dataset-for-single-growth-curve}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(dat }\SpecialCharTok{\%\textgreater{}\%}
+       \FunctionTok{select}\NormalTok{(time, value))}
+\end{Highlighting}
+\end{Shaded}
+
+This is all the data you need to find \(r\), \(K\), and other
+parameters. Make sure time starts at 0.
+\end{frame}
+
+\begin{frame}{Plot single growth curve}
+\protect\hypertarget{plot-single-growth-curve}{}
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-6-1.pdf}
+\end{frame}
+
+\begin{frame}{Finding \(r\)}
+\protect\hypertarget{finding-r}{}
+Exponential growth: \[N_t = N_0 e^{rt}\] Derivative of exponential
+growth: \[ln(N_t) = ln(N_0) + rt\] Can be evaluated as a linear
+function:
+
+\[y = b_0 + b_1 t\]
+
+where \(b_0 = ln(N_0)\) and \(b_1 = r\).
+\end{frame}
+
+\begin{frame}[fragile]{Using \texttt{growthrates} to find \(r\)}
+\protect\hypertarget{using-growthrates-to-find-r}{}
+The function \texttt{fit\_easylinear} finds the maximum growth rate on
+the exponential segment of the growth curve.
+
+\texttt{fit\_easylinear} takes four arguments:
+
+\texttt{fit\_easylinear(time,\ y,\ h\ =\ 5,\ quota\ =\ 0.95)}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{h} = number of data points (see next slide)
+\item
+  \texttt{quota} = how much of adjacent data to include
+\end{itemize}
+\end{frame}
+
+\begin{frame}{How \texttt{fit\_easylinear}'s algorithm works}
+\protect\hypertarget{how-fit_easylinears-algorithm-works}{}
+\begin{enumerate}
+\tightlist
+\item
+  Fit linear regressions to all subsets of h consecutive data points. If
+  for example h = 5, fit a linear regression to points 1 . . . 5, 2 . .
+  . 6, 3. . . 7 and so on. The method seeks the highest rate of
+  exponential growth, so the dependent variable is log-transformed.
+\item
+  Find the subset with the highest slope bmax and include also the data
+  points of adjacent subsets that have a slope of at least
+  \(quota \cdot bmax\), e.g.~all data sets that have at least 95\% of
+  the maximum slope.
+\item
+  Fit a new linear model to the extended data window identified in step
+  2.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Applying \texttt{fit\_easylinear}}
+\protect\hypertarget{applying-fit_easylinear}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OtherTok{\textless{}{-}} \FunctionTok{fit\_easylinear}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{time, dat}\SpecialCharTok{$}\NormalTok{value)}
+
+\CommentTok{\# Keeping defaults for h and quota}
+
+\FunctionTok{coef}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\(mumax\) is \(r\).
+\end{frame}
+
+\begin{frame}{Plotting the results}
+\protect\hypertarget{plotting-the-results}{}
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-8-1.pdf}
+\end{frame}
+
+\begin{frame}[fragile]{Using \texttt{fit\_splines}}
+\protect\hypertarget{using-fit_splines}{}
+Splines fit models piecewise to a dataset, with a polynomial for each
+segment, and some fancy math to make it nice and smooth.
+
+\texttt{growthrates} has the function \texttt{fit\_splines} that can
+find \(r\) using this method
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res }\OtherTok{\textless{}{-}} \FunctionTok{fit\_spline}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{time, dat}\SpecialCharTok{$}\NormalTok{value)}
+
+\FunctionTok{coef}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Plotting the result}
+\protect\hypertarget{plotting-the-result}{}
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-10-1.pdf}
+\end{frame}
+
+\begin{frame}[fragile]{Fitting parametric nonlinear models}
+\protect\hypertarget{fitting-parametric-nonlinear-models}{}
+\begin{itemize}
+\tightlist
+\item
+  \texttt{growthrates} can also be used to fit parametric nonlinear
+  models with the \texttt{fit\_growthmodel} function
+\end{itemize}
+
+fit\_growthmodel(\\
+FUN,\\
+p,\\
+time,\\
+y,\\
+lower = -Inf,\\
+upper = Inf,\\
+which = names(p),\\
+method = ``Marq'',\\
+transform = c(``none'', ``log''), control = NULL,\\
+\ldots)
+\end{frame}
+
+\begin{frame}[fragile]{Applying \texttt{fit\_growthmodel}}
+\protect\hypertarget{applying-fit_growthmodel}{}
+\texttt{FUN} defines the growth model; we will use
+\texttt{FUN\ =\ grow\_logistic}
+
+\[\frac{dN}{dT} = r_{max} \frac{(K-N)}{K} N\]
+
+\texttt{p} sets start values for the parameters \texttt{y\_0},
+\texttt{mumax}, and \texttt{K}, where \texttt{mumax} is equivalent to
+\(r_{max}\). Make your best guess based on an inspection of the data.
+
+The other variables have defaults and we won't worry about them now.
+\end{frame}
+
+\begin{frame}[fragile]{Applying \texttt{fit\_growthmodel}}
+\protect\hypertarget{applying-fit_growthmodel-1}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{y0 =} \FloatTok{0.01}\NormalTok{, }\AttributeTok{mumax =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{K =} \FloatTok{0.1}\NormalTok{)}
+
+\NormalTok{fit1 }\OtherTok{\textless{}{-}} \FunctionTok{fit\_growthmodel}\NormalTok{(}\AttributeTok{FUN =}\NormalTok{ grow\_logistic, }
+                        \AttributeTok{p =}\NormalTok{ p, }
+\NormalTok{                        dat}\SpecialCharTok{$}\NormalTok{time, }
+\NormalTok{                        dat}\SpecialCharTok{$}\NormalTok{value)}
+
+\FunctionTok{coef}\NormalTok{(fit1)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Plotting results of logistic growth model}
+\protect\hypertarget{plotting-results-of-logistic-growth-model}{}
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-12-1.pdf}
+\end{frame}
+
+\begin{frame}{Two-step differential equation model}
+\protect\hypertarget{two-step-differential-equation-model}{}
+Cells (or individuals) can be either inactive or active. For animals,
+inactive could mean an individual is not of reproductive age.
+
+Each type has its own growth equation:
+
+\[\frac{dy_i}{dt} = - k_w \cdot y_i\]
+\[\frac{dy_a}{dt} = k_w \cdot y_i + \mu_{max} \cdot y_a \cdot \left( 1 - \frac{y_a+y_i}{K} \right)\]
+\end{frame}
+
+\begin{frame}[fragile]{Applying the two-step differential equation
+model}
+\protect\hypertarget{applying-the-two-step-differential-equation-model}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{yi =} \FloatTok{0.02}\NormalTok{, }\AttributeTok{ya =} \FloatTok{0.001}\NormalTok{, }\AttributeTok{kw =} \FloatTok{0.1}\NormalTok{, }\AttributeTok{mumax =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{K =} \FloatTok{0.1}\NormalTok{)}
+
+\NormalTok{fit2 }\OtherTok{\textless{}{-}} \FunctionTok{fit\_growthmodel}\NormalTok{(}\AttributeTok{FUN =}\NormalTok{ grow\_twostep, }
+                        \AttributeTok{p =}\NormalTok{ p, }
+                        \AttributeTok{time =}\NormalTok{ dat}\SpecialCharTok{$}\NormalTok{time, }
+                        \AttributeTok{y =}\NormalTok{ dat}\SpecialCharTok{$}\NormalTok{value)}
+
+\FunctionTok{coef}\NormalTok{(fit2)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Plotting result of two-step model}
+\protect\hypertarget{plotting-result-of-two-step-model}{}
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-14-1.pdf}
+\end{frame}
+
+\begin{frame}[fragile]{Fitting models to multiple datasets}
+\protect\hypertarget{fitting-models-to-multiple-datasets}{}
+This applies when you have more than one growth curve. In
+\texttt{bactgrowth} we have a total of 72 growth curves, a combination
+of three strains, two replicates, and 12 different concentrations.
+\end{frame}
+
+\begin{frame}{Full \texttt{bactgrowth} dataset}
+\protect\hypertarget{full-bactgrowth-dataset}{}
+Remember this plot of a subset with only four concentrations:
+
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-15-1.pdf}
+\end{frame}
+
+\begin{frame}[fragile]{Analysis of multiple datasets}
+\protect\hypertarget{analysis-of-multiple-datasets}{}
+One question we might ask ourselves is: how does the concentration of an
+antibiotic affect growth rates of different strains and replicates? This
+is known as dose response curves. The same logic applies to, for
+example, environmental toxins.
+
+We start with a spline fit. \texttt{spar} is a parameter that determines
+smoothness of the spline fit. The output gives us estimates for \(y_0\)
+and \(r_{max}\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{many\_spline\_fits }\OtherTok{\textless{}{-}} \FunctionTok{all\_splines}\NormalTok{(value }\SpecialCharTok{\textasciitilde{}}\NormalTok{ time }\SpecialCharTok{|} 
+\NormalTok{                                  strain }\SpecialCharTok{+}\NormalTok{ conc }\SpecialCharTok{+}\NormalTok{ replicate,}
+                                \AttributeTok{data =}\NormalTok{ bactgrowth, }\AttributeTok{spar =} \FloatTok{0.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}[fragile]{Look at coefficients}
+\protect\hypertarget{look-at-coefficients}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(}\FunctionTok{coef}\NormalTok{(many\_spline\_fits), }\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Plotting results for multiple splines}
+\protect\hypertarget{plotting-results-for-multiple-splines}{}
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-19-1.pdf}
+\end{frame}
+
+\begin{frame}{Logistic growth models for multiple datasets}
+\protect\hypertarget{logistic-growth-models-for-multiple-datasets}{}
+all\_growthmodels(\\
+formula,\\
+data,\\
+p,\\
+lower = -Inf,\\
+upper = Inf,\\
+which = names(p),\\
+FUN = NULL,\\
+method = ``Marq'',\\
+transform = c(``none'', ``log''),\\
+\ldots,\\
+subset = NULL,\\
+ncores = detectCores(logical = FALSE)\\
+)
+\end{frame}
+
+\begin{frame}[fragile]{Applying \texttt{all\_growthmodels} with logistic
+growth}
+\protect\hypertarget{applying-all_growthmodels-with-logistic-growth}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p   }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{y0 =} \FloatTok{0.03}\NormalTok{, }\AttributeTok{mumax =}\NormalTok{ .}\DecValTok{1}\NormalTok{, }\AttributeTok{K =} \FloatTok{0.1}\NormalTok{)}
+
+\NormalTok{many\_logistic }\OtherTok{\textless{}{-}} \FunctionTok{all\_growthmodels}\NormalTok{(}
+\NormalTok{                   value }\SpecialCharTok{\textasciitilde{}} \FunctionTok{grow\_logistic}\NormalTok{(time, parms) }\SpecialCharTok{|} 
+\NormalTok{                     strain }\SpecialCharTok{+}\NormalTok{ conc }\SpecialCharTok{+}\NormalTok{ replicate,}
+                   \AttributeTok{data =}\NormalTok{ bactgrowth,}
+                   \AttributeTok{p =}\NormalTok{ p)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Plotting results}
+\protect\hypertarget{plotting-results}{}
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-21-1.pdf}
+\end{frame}
+
+\begin{frame}[fragile]{Using results to estimate dose response curves}
+\protect\hypertarget{using-results-to-estimate-dose-response-curves}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{many\_spline\_res   }\OtherTok{\textless{}{-}} \FunctionTok{results}\NormalTok{(many\_spline\_fits)}
+\NormalTok{many\_logistic\_res }\OtherTok{\textless{}{-}} \FunctionTok{results}\NormalTok{(many\_logistic)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Plotting dose response curves for splines}
+\protect\hypertarget{plotting-dose-response-curves-for-splines}{}
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-23-1.pdf}
+\end{frame}
+
+\begin{frame}{Plotting dose response curves for logistic}
+\protect\hypertarget{plotting-dose-response-curves-for-logistic}{}
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-24-1.pdf}
+\end{frame}
+
+\begin{frame}{Unique insight}
+\protect\hypertarget{unique-insight}{}
+You can write your own functions!
+
+Example for a shift model (won't go into details of the model)
+
+\[y(t) = \frac{K \cdot y_0}{y_0 + (K-y_0) \cdot e^{-\mu_{max}t}} + y_{shift}\]
+\end{frame}
+
+\begin{frame}[fragile]{Code}
+\protect\hypertarget{code}{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Define model}
+\NormalTok{grow\_logistic\_yshift }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(time, parms) \{}
+  \FunctionTok{with}\NormalTok{(}\FunctionTok{as.list}\NormalTok{(parms), \{}
+\NormalTok{    y }\OtherTok{\textless{}{-}}\NormalTok{ (K }\SpecialCharTok{*}\NormalTok{ y0) }\SpecialCharTok{/}\NormalTok{ (y0 }\SpecialCharTok{+}\NormalTok{ (K }\SpecialCharTok{{-}}\NormalTok{ y0) }\SpecialCharTok{*} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{mumax }\SpecialCharTok{*}\NormalTok{ time)) }\SpecialCharTok{+}\NormalTok{ y\_shift}
+    \FunctionTok{as.matrix}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{time =}\NormalTok{ time, }\AttributeTok{y =}\NormalTok{ y))}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\CommentTok{\# Convert to class \textasciigrave{}growthmodel\textasciigrave{}}
+\NormalTok{grow\_logistic\_yshift }\OtherTok{\textless{}{-}} \FunctionTok{growthmodel}\NormalTok{(grow\_logistic\_yshift,}
+                                    \FunctionTok{c}\NormalTok{(}\StringTok{"y0"}\NormalTok{, }\StringTok{"mumax"}\NormalTok{, }\StringTok{"K"}\NormalTok{, }\StringTok{"y\_shift"}\NormalTok{))}
+
+\CommentTok{\# Now use \textasciigrave{}growthrates\textasciigrave{} function to fit model}
+\CommentTok{\# fit \textless{}{-} fit\_growthmodel(grow\_logistic\_yshift,}
+                       \CommentTok{\# p = c(y0 = 1, mumax = 0.1, K = 10, K = 10, }
+                       \CommentTok{\#       y\_shift = 1),}
+                       \CommentTok{\# time = x, y = y)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\begin{frame}{Advantages of \texttt{growthrates} package}
+\protect\hypertarget{advantages-of-growthrates-package}{}
+\begin{itemize}
+\tightlist
+\item
+  Adapted to problems of biological growth
+\item
+  A lot simpler to use than the packages that contain the fitting
+  routines
+\item
+  Very flexible -- can fit several different models; each function can
+  be adapted
+\item
+  Seems relatively fast
+\item
+  Allows for user-defined functions
+\item
+  Has built-in plotting function but also works well with ggplot
+\item
+  Well documented
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Limitations of the package}
+\protect\hypertarget{limitations-of-the-package}{}
+\begin{itemize}
+\tightlist
+\item
+  Would be even easier if some of the user-defined functions (like the
+  shift model) were integrated into the package
+\item
+  Overall the package does what it sets out to do, and I have no major
+  complaints
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Sources}
+\protect\hypertarget{sources}{}
+\url{https://tpetzoldt.github.io/growthrates/doc/Introduction.html}
+\url{https://cran.r-project.org/web/packages/growthrates/growthrates.pdf}
+\url{https://github.com/tpetzoldt/growthrates}
+
+My code:
+
+\url{https://github.com/linusblomqvist/ESM_211/blob/main/growthrates/growthrates_prez.Rmd}
+\end{frame}
+
+\begin{frame}[fragile]{Portfolio assignment}
+\protect\hypertarget{portfolio-assignment}{}
+Find \(r\) and \(K\) for the bison dataset using at least three
+different models (e.g.~exponential, logistic, spline).
+
+Hint: try functions \texttt{fit\_easylinear},
+\texttt{fit\_growthmodels}, and \texttt{fit\_splines}.
+
+Do the different models agree on the parameter values?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\# Read in bison data}
+
+\NormalTok{bison }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\FunctionTok{here}\NormalTok{(}\StringTok{"growthrates"}\NormalTok{, }\StringTok{"bison.csv"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{time =}\NormalTok{ year }\SpecialCharTok{{-}}\NormalTok{ year[}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bison\_fit }\OtherTok{\textless{}{-}} \FunctionTok{fit\_easylinear}\NormalTok{(bison}\SpecialCharTok{$}\NormalTok{time, bison}\SpecialCharTok{$}\NormalTok{bison)}
+
+\CommentTok{\# Keeping defaults for h and quota}
+
+\FunctionTok{coef}\NormalTok{(bison\_fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\FunctionTok{plot}\NormalTok{(bison\_fit, }\AttributeTok{log =} \StringTok{"y"}\NormalTok{, }\AttributeTok{cex.lab =} \DecValTok{2}\NormalTok{, }\AttributeTok{cex.axis =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(bison\_fit, }\AttributeTok{cex.lab =} \DecValTok{2}\NormalTok{, }\AttributeTok{cex.axis =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-28-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bison\_res }\OtherTok{\textless{}{-}} \FunctionTok{fit\_spline}\NormalTok{(bison}\SpecialCharTok{$}\NormalTok{time, bison}\SpecialCharTok{$}\NormalTok{bison)}
+
+\FunctionTok{coef}\NormalTok{(bison\_res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\FunctionTok{plot}\NormalTok{(bison\_res, }\AttributeTok{log =} \StringTok{"y"}\NormalTok{, }\AttributeTok{cex.lab =} \DecValTok{2}\NormalTok{, }\AttributeTok{cex.axis =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(bison\_res, }\AttributeTok{cex.lab =} \DecValTok{2}\NormalTok{, }\AttributeTok{cex.axis =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{growthrates_prez_files/figure-beamer/unnamed-chunk-30-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bison\_p }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{y0 =} \DecValTok{484}\NormalTok{, }\AttributeTok{mumax =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{K =} \DecValTok{4114}\NormalTok{)}
+
+\NormalTok{bison\_fit1 }\OtherTok{\textless{}{-}} \FunctionTok{fit\_growthmodel}\NormalTok{(}\AttributeTok{FUN =}\NormalTok{ grow\_logistic, }
+                        \AttributeTok{p =}\NormalTok{ bison\_p, }
+\NormalTok{                        bison}\SpecialCharTok{$}\NormalTok{time, }
+\NormalTok{                        bison}\SpecialCharTok{$}\NormalTok{bison)}
+
+\FunctionTok{coef}\NormalTok{(bison\_fit1)}
+\end{Highlighting}
+\end{Shaded}
+\end{frame}
+
+\end{document}

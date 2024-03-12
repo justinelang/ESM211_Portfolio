@@ -2,18 +2,20 @@
 title: "growthrates R package"
 subtitle: "ESM 211 Winter 2024"
 author: "Linus Blomqvist"
-date: "`r Sys.Date()`"
 output: 
-  beamer_presentation:
-    theme: "Singapore"
+  html_document: 
+    code_folding: show
+  
 ---
 
 ```{r setup, include=FALSE}
-def.chunk.hook  <- knitr::knit_hooks$get("chunk")
-knitr::knit_hooks$set(chunk = function(x, options) {
-  x <- def.chunk.hook(x, options)
-  paste0("\n \\", "footnotesize","\n\n", x, "\n\n \\normalsize")
-})
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, results = FALSE, message = FALSE)
+
+# def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+# knitr::knit_hooks$set(chunk = function(x, options) {
+#   x <- def.chunk.hook(x, options)
+#   paste0("\n \\", "footnotesize","\n\n", x, "\n\n \\normalsize")
+# })
 ```
 
 ## What does the package do?
@@ -42,6 +44,7 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 library(growthrates)
 library(tidyverse)
 library(ggplot2)
+library(here)
 
 ```
 
@@ -394,10 +397,10 @@ grow_logistic_yshift <- growthmodel(grow_logistic_yshift,
                                     c("y0", "mumax", "K", "y_shift"))
 
 # Now use `growthrates` function to fit model
-fit <- fit_growthmodel(grow_logistic_yshift,
-                       p = c(y0 = 1, mumax = 0.1, K = 10, K = 10, 
-                             y_shift = 1),
-                       time = x, y = y)
+# fit <- fit_growthmodel(grow_logistic_yshift,
+                       # p = c(y0 = 1, mumax = 0.1, K = 10, K = 10, 
+                       #       y_shift = 1),
+                       # time = x, y = y)
 ```
 
 ## Advantages of `growthrates` package
@@ -432,3 +435,52 @@ Find $r$ and $K$ for the bison dataset using at least three different models (e.
 Hint: try functions `fit_easylinear`, `fit_growthmodels`, and `fit_splines`.
 
 Do the different models agree on the parameter values?
+
+```{r}
+### Read in bison data
+
+bison <- read_csv(here("growthrates", "bison.csv")) %>% 
+  mutate(time = year - year[1])
+```
+
+```{r}
+bison_fit <- fit_easylinear(bison$time, bison$bison)
+
+# Keeping defaults for h and quota
+
+coef(bison_fit)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+plot(bison_fit, log = "y", cex.lab = 2, cex.axis = 2)
+plot(bison_fit, cex.lab = 2, cex.axis = 2)
+```
+
+```{r}
+bison_res <- fit_spline(bison$time, bison$bison)
+
+coef(bison_res)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+plot(bison_res, log = "y", cex.lab = 2, cex.axis = 2)
+plot(bison_res, cex.lab = 2, cex.axis = 2)
+```
+
+```{r}
+bison_p <- c(y0 = 484, mumax = 0.2, K = 4114)
+
+bison_fit1 <- fit_growthmodel(FUN = grow_logistic, 
+                        p = bison_p, 
+                        bison$time, 
+                        bison$bison)
+
+coef(bison_fit1)
+```
+
+
+
+
+
