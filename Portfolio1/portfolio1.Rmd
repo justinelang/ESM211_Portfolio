@@ -15,9 +15,37 @@ library(janitor)
 library(here)
 ```
 
+### Portfolio 1 Questions
 
+1. Find a population time series, set up an R project, import and clean the data, do any data manipulations, and make a “clean” data plot.
 
+```{r}
+### Read in sea otter time series data 
+### Clean names
+### No data for 2011 --> drop NAs
 
+otters <- read_csv(here("Portfolio1", "sea_otter_ts.csv")) %>% 
+  clean_names() %>% 
+  drop_na()
+```
+
+```{r}
+### Make a plot
+
+otters_gg <- ggplot(data = otters, aes(x = year, y = total)) +
+  geom_point() +
+  xlim(1983, 2019) +
+  labs(x = "Year", y = "Sea Otter Count (N)", title = "California Sea Otter Population (1983-2019)") +
+  theme_minimal()
+
+otters_gg
+```
+
+A very simple plot that still provides a lot of insight into sea otter population trends over the past 40 years. 
+
+The mainland California sea otter population has overall been increasing since 1983, with the occasional dip, such as around 2000. Interestingly, the population shot over 3000 in 2016 before rapidly decreasing to around 2200 the following year. It is unclear precisely what caused this dip, though it may have been related to prey availability. By 2019, the population might have begun to level off. 
+
+**Data Source:**  Hatfield, B. B., Yee, J. L., Kenner, M. C., & Tomoleoni, J. A. (2019). *California Sea Otter (Enhydra lutris nereis) Census Results, Spring 2019.* U.S. Geological Survey, U.S. Department of the Interior. https://pubs.usgs.gov/ds/1118/ds1118.pdf
 
 
 
