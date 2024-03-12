@@ -1,10 +1,10 @@
 ---
-title: "Portfolio1"
+title: "Portfolio 2: growthcurver"
 author: "Justine Lang"
 date: "2024-01-16"
 output: 
   html_document: 
-    code_folding: hide
+    code_folding: show
 ---
 
 ```{r setup, echo = TRUE, warning = FALSE, results = FALSE, message = FALSE}
@@ -13,19 +13,234 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, results = FALSE, message = F
 library(tidyverse)
 library(janitor)
 library(here)
-library(ebirdst)
+library(growthcurver) ### older logistic growth package
+```
+
+### Portfolio 2 Questions
+
+Use ‘growthcurver’ package in R: Use World data
+
+a. Import the global population data and apply the logistic growth model. Does the model describe the world population well?
+
+b. Choose a country of interest. Does the model describe that country's population well? What countries have logistic growth?
+
+**Exponential Growth of Human Population Example**
+
+```{r}
+#get the data
+w_pop_data<-read_csv(here("Portfolio1","population-and-demography.csv"))
+
+#clean the data for only the global human population
+w_pop_data<- w_pop_data |> clean_names() |>
+  filter(country_name=="World") |> 
+  select(year, population) |> drop_na()
+```
+
+Always plot your data
+
+```{r}
+#On the observed scale
+human_ts<-ggplot(w_pop_data, aes(x=year, y=population))+
+  geom_point()+
+  xlab("Year")+
+  ylab("Human count (N)")+
+  xlim(1949, 2023)+
+  ggtitle("Human Population on Earth (1950-2022)")+
+  theme_bw()
+
+human_ts
 ```
 
 ```{r}
-# set_ebirdst_access_key("6pmmmj5a1erm")
+#on the transformed log scale
+human_ts_log<-ggplot(w_pop_data, aes(x=year, y=population))+
+  geom_point()+
+  xlab("Year")+
+  ylab("Human count (N)")+
+  scale_y_continuous(trans="log")+ # log scale for linear transformation
+  xlim(1949, 2023)+
+  ggtitle("Human Population on Earth (1950-2022)")+
+  theme_bw()
+
+human_ts_log
+```
+
+Use lm() to find estimates
+
+```{r}
+human.lm_fit<- lm(log(population)~year,data=w_pop_data)
+summary(human.lm_fit) #how well does it fit? 
+
+NO<-exp(human.lm_fit$coefficients[1])
+r<-human.lm_fit$coefficients[2]
+```
+
+Plot the data and the model
+
+```{r}
+# On the transformed scale
+human_ts_model_trans<-ggplot(w_pop_data, aes(x=year, y=population))+
+  geom_point()+
+  xlab("Year")+
+  ylab("Human count (N)")+
+  scale_y_continuous(trans="log")+
+  geom_smooth(method="lm",color="blue")+
+  xlim(1949, 2023)+
+  ggtitle("Human Population on Earth (1950-2022)")+
+  theme_bw()
+
+human_ts_model_trans
 ```
 
 ```{r}
-sals <- read_csv(here("Portfolio1", "sstspa_regional_2022.csv"))
+# On the observed scale
+
+# Predicted population values from the model
+predicted_df <- data.frame(pop_pred = predict(human.lm_fit, w_pop_data), year=w_pop_data$year)
+predicted_df<- predicted_df |> mutate(N_est=exp(pop_pred)) #transformed back to observed population estimates
+
+
+human_ts_model<-ggplot(w_pop_data, aes(x=year, y=population))+
+  geom_point(color="black")+
+  geom_line(color='red',data = predicted_df, aes(x=year, y=N_est))+
+  xlab("Year")+
+  ylab("Human count (N)")+
+  xlim(1949, 2023)+
+  ggtitle("Human Population on Earth (1950-2022)")+
+  theme_bw()
+
+human_ts_model
+```
+
+**Exponential Growth of Denmark Population**
+
+```{r}
+w_pop <-read_csv(here("Portfolio1","population-and-demography.csv"))
+
+#clean the data for only the global human population
+den_data<- w_pop |> clean_names() |>
+  filter(country_name=="Denmark") |> 
+  select(year, population) |> drop_na()
+```
+
+```{r}
+#On the observed scale
+denmark_ts<-ggplot(den_data, aes(x=year, y=population))+
+  geom_point()+
+  xlab("Year")+
+  ylab("Human count (N)")+
+  xlim(1949, 2023)+
+  ggtitle("Human Population in Denmark (1950-2022)")+
+  theme_bw()
+
+denmark_ts
+```
+
+```{r}
+#on the transformed log scale
+denmark_ts_log<-ggplot(den_data, aes(x=year, y=population))+
+  geom_point()+
+  xlab("Year")+
+  ylab("Human count (N)")+
+  scale_y_continuous(trans="log")+ # log scale for linear transformation
+  xlim(1949, 2023)+
+  ggtitle("Human Population in Denmark (1950-2022)")+
+  theme_bw()
+
+denmark_ts_log
+```
+
+```{r}
+denmark.lm_fit<- lm(log(population)~year,data=den_data)
+summary(denmark.lm_fit) #how well does it fit? 
+
+NO<-exp(denmark.lm_fit$coefficients[1])
+r<-denmark.lm_fit$coefficients[2]
+```
+
+```{r}
+# On the transformed scale
+denmark_ts_model_trans<-ggplot(den_data, aes(x=year, y=population))+
+  geom_point()+
+  xlab("Year")+
+  ylab("Human count (N)")+
+  scale_y_continuous(trans="log")+
+  geom_smooth(method="lm",color="blue")+
+  xlim(1949, 2023)+
+  ggtitle("Human Population in Denmark (1950-2022)")+
+  theme_bw()
+
+denmark_ts_model_trans
+```
+
+```{r}
+# On the observed scale
+
+# Predicted population values from the model
+den_predicted_df <- data.frame(den_pop_pred = predict(denmark.lm_fit, den_data), year=den_data$year)
+den_predicted_df<- den_predicted_df |> mutate(N_est=exp(den_pop_pred)) #transformed back to observed popualtion estimates
+
+
+denmark_ts_model<-ggplot(den_data, aes(x=year, y=population))+
+  geom_point(color="black")+
+  geom_line(color='red',data = den_predicted_df, aes(x=year, y=N_est))+
+  xlab("Year")+
+  ylab("Human count (N)")+
+  xlim(1949, 2023)+
+  ggtitle("Human Population in Denmark (1950-2022)")+
+  theme_bw()
+
+denmark_ts_model
 ```
 
 
+**Logistic Growth of Human and Bison Populations Example**
 
+```{r}
+#transform year to time for world pop data
+w_pop_data <- w_pop_data |> mutate(time = year - year[1])
+```
+
+```{r}
+#using the growthcurver package
+#here: https://cran.r-project.org/web/packages/growthcurver/vignettes/Growthcurver-vignette.html
+
+human_fit<-SummarizeGrowth(w_pop_data$time,w_pop_data$population)
+human_fit
+plot(human_fit) #what is funny with this graph?  N at 0 is what?  
+w_pop_data$population[1] # need to add this to the y population values.  
+est_K_human<-human_fit$vals$k + w_pop_data$population[1] #estimated K for the data
+```
+
+```{r}
+#bison data
+bison_data<-read_csv(here("Portfolio1","bison.csv"))
+
+#transform year to time
+bison_data <- bison_data |> mutate(time = year - year[1])
+```
+
+```{r}
+bison_fit<-SummarizeGrowth(bison_data$time,bison_data$bison)
+bison_fit
+plot(bison_fit)
+est_K_bison<-bison_fit$vals$k + bison_data$bison[1] #estimated K for the data
+```
+
+**Logistic Growth of Denmark Population**
+
+```{r}
+#transform year to time
+den_data <- den_data |> mutate(time = year - year[1])
+```
+
+```{r}
+denmark_fit<-SummarizeGrowth(den_data$time,den_data$population)
+denmark_fit
+plot(denmark_fit) #what is funny with this graph?  N at 0 is what?  
+den_data$population[1] # need to add this to the y population values.  
+est_K_denmark<-denmark_fit$vals$k + den_data$population[1] #estimated K for the data
+```
 
 
 
