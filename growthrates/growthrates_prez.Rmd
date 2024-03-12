@@ -1,5 +1,5 @@
 ---
-title: "growthrates R package"
+title: "Portfolio 3: growthrates"
 subtitle: "ESM 211 Winter 2024"
 author: "Linus Blomqvist"
 output: 
@@ -50,6 +50,8 @@ library(here)
 
 ## Load, inspect, subsample data
 
+This is a lot of wrangling specific to this dataset (and making it more manageable):
+
 ```{r}
 # Load dataset and show summary
 data(bactgrowth)
@@ -59,6 +61,8 @@ summary(bactgrowth)
 bactgrowth_small <- bactgrowth %>%
   filter(conc %in% sample(conc, 4))
 ```
+
+Some general data inspection. 
 
 ## Plot data
 
@@ -149,6 +153,10 @@ coef(fit)
 
 $mumax$ is $r$.
 
+In this case, $r = 0.20$. 
+
+Very straightforward. 
+
 ## Plotting the results
 
 ```{r, echo = FALSE}
@@ -168,6 +176,8 @@ res <- fit_spline(dat$time, dat$value)
 
 coef(res)
 ```
+
+In this instance, $r = 0.30$. It's a bit higher. 
 
 ## Plotting the result
 
@@ -207,7 +217,7 @@ The other variables have defaults and we won't worry about them now.
 ## Applying `fit_growthmodel`
 
 ```{r}
-p <- c(y0 = 0.01, mumax = 0.2, K = 0.1)
+p <- c(y0 = 0.01, mumax = 0.2, K = 0.1) ### sort of have to eyeball it
 
 fit1 <- fit_growthmodel(FUN = grow_logistic, 
                         p = p, 
@@ -216,6 +226,9 @@ fit1 <- fit_growthmodel(FUN = grow_logistic,
 
 coef(fit1)
 ```
+
+$r = 0.20$ and $K = 0.10$. Sanity check suggests this makes sense. 
+
 
 ## Plotting results of logistic growth model
 
@@ -269,6 +282,9 @@ bactgrowth_small %>%
   theme(text = element_text(size = 20))
 ```
 
+It's clear why this package is often used for bacteria.
+
+
 ## Analysis of multiple datasets
 
 One question we might ask ourselves is: how does the concentration of an antibiotic affect growth rates of different strains and replicates? This is known as dose response curves. The same logic applies to, for example, environmental toxins.
@@ -301,6 +317,9 @@ par(mfrow = c(4, 6))
 par(mar = c(2.5, 4, 2, 1))
 plot(many_spline_fits_small, cex.lab = 2, cex.axis = 1)
 ```
+
+Very simple to display many graphs with only a few lines of code.
+
 
 ## Logistic growth models for multiple datasets
 
@@ -436,12 +455,17 @@ Hint: try functions `fit_easylinear`, `fit_growthmodels`, and `fit_splines`.
 
 Do the different models agree on the parameter values?
 
+
+Switching from bacteria to bison:
+
 ```{r}
 ### Read in bison data
 
 bison <- read_csv(here("growthrates", "bison.csv")) %>% 
-  mutate(time = year - year[1])
+  mutate(time = year - year[1]) ### remember time has to start from 0
 ```
+
+Starting with `fit_easylinear`
 
 ```{r}
 bison_fit <- fit_easylinear(bison$time, bison$bison)
@@ -450,6 +474,7 @@ bison_fit <- fit_easylinear(bison$time, bison$bison)
 
 coef(bison_fit)
 ```
+$r = 0.13$
 
 ```{r}
 par(mfrow = c(1, 2))
@@ -457,11 +482,17 @@ plot(bison_fit, log = "y", cex.lab = 2, cex.axis = 2)
 plot(bison_fit, cex.lab = 2, cex.axis = 2)
 ```
 
+Not the greatest fit.
+
+Moving on to `fit_spline`
+
 ```{r}
 bison_res <- fit_spline(bison$time, bison$bison)
 
 coef(bison_res)
 ```
+
+$r = 0.51$. That's a bit of a difference. 
 
 ```{r}
 par(mfrow = c(1, 2))
@@ -469,8 +500,12 @@ plot(bison_res, log = "y", cex.lab = 2, cex.axis = 2)
 plot(bison_res, cex.lab = 2, cex.axis = 2)
 ```
 
+Visually, I would call that an overestimation of r. 
+
+Let's try `fit_growthmodel`
+
 ```{r}
-bison_p <- c(y0 = 484, mumax = 0.2, K = 4114)
+bison_p <- c(y0 = 484, mumax = 0.2, K = 4114) ### making my best guess best on the graphs
 
 bison_fit1 <- fit_growthmodel(FUN = grow_logistic, 
                         p = bison_p, 
@@ -480,7 +515,15 @@ bison_fit1 <- fit_growthmodel(FUN = grow_logistic,
 coef(bison_fit1)
 ```
 
+$r = 0.18$ and $K = 3742$. Not terrible. r makes a little more sense with this model. K seems like it could be a bit of an underestimation. 
 
+```{r}
+plot(bison_fit1, cex.lab = 2, cex.axis = 2)
+```
+
+Visually, looks like a better fit than the other two.
+
+Useful package. Definitely have to be familiar with your data before deciding on which model you want to use, though that is good practice regardless. 
 
 
 
