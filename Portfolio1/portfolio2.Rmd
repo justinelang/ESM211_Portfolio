@@ -24,6 +24,10 @@ a. Import the global population data and apply the logistic growth model. Does t
 
 b. Choose a country of interest. Does the model describe that country's population well? What countries have logistic growth?
 
+What the package does: Fits the logistic equation to microbial growth curve data (e.g., repeated absorbance measurements taken from a plate reader over time). From this fit, a variety of metrics are provided, including the maximum growth rate, the doubling time, the carrying capacity, the area under the logistic curve, and the time to the inflection point. 
+
+More simply, it's useful for estimating growth rate and carrying capacity. 
+
 **Exponential Growth of Human Population Example**
 
 ```{r}
@@ -36,7 +40,7 @@ w_pop_data<- w_pop_data |> clean_names() |>
   select(year, population) |> drop_na()
 ```
 
-Always plot your data
+Always plot your data:
 
 ```{r}
 #On the observed scale
@@ -50,6 +54,8 @@ human_ts<-ggplot(w_pop_data, aes(x=year, y=population))+
 
 human_ts
 ```
+
+Fairly linear. 
 
 ```{r}
 #on the transformed log scale
@@ -65,7 +71,9 @@ human_ts_log<-ggplot(w_pop_data, aes(x=year, y=population))+
 human_ts_log
 ```
 
-Use lm() to find estimates
+Also fairly linear. 
+
+Use lm() to find estimates:
 
 ```{r}
 human.lm_fit<- lm(log(population)~year,data=w_pop_data)
@@ -75,7 +83,9 @@ NO<-exp(human.lm_fit$coefficients[1])
 r<-human.lm_fit$coefficients[2]
 ```
 
-Plot the data and the model
+The R-squared and p-value suggest a good fit, which makes sense based on how the plot looks. The question is if this is the best way to examine the data, depending on the question being asked. 
+
+Plot the data and the model:
 
 ```{r}
 # On the transformed scale
@@ -91,6 +101,8 @@ human_ts_model_trans<-ggplot(w_pop_data, aes(x=year, y=population))+
 
 human_ts_model_trans
 ```
+
+There are a couple places where the model over or underestimates the observed values, but it doesn't look like a bad fit.
 
 ```{r}
 # On the observed scale
@@ -114,6 +126,8 @@ human_ts_model
 
 **Exponential Growth of Denmark Population**
 
+Let's do the same thing but with a single country: Denmark.
+
 ```{r}
 w_pop <-read_csv(here("Portfolio1","population-and-demography.csv"))
 
@@ -136,6 +150,8 @@ denmark_ts<-ggplot(den_data, aes(x=year, y=population))+
 denmark_ts
 ```
 
+Overall positive trend, though there's an odd place where the population almost dips. A little bit of research into historical events and policies around the time doesn't reveal a clear explanation. Might be worth poking around a bit more. 
+
 ```{r}
 #on the transformed log scale
 denmark_ts_log<-ggplot(den_data, aes(x=year, y=population))+
@@ -154,9 +170,10 @@ denmark_ts_log
 denmark.lm_fit<- lm(log(population)~year,data=den_data)
 summary(denmark.lm_fit) #how well does it fit? 
 
-NO<-exp(denmark.lm_fit$coefficients[1])
-r<-denmark.lm_fit$coefficients[2]
+den_NO<-exp(denmark.lm_fit$coefficients[1])
+den_r<-denmark.lm_fit$coefficients[2]
 ```
+R-squared and p-value still suggest a good fit. Visually, I'm less sure because of that dip. 
 
 ```{r}
 # On the transformed scale
@@ -172,6 +189,8 @@ denmark_ts_model_trans<-ggplot(den_data, aes(x=year, y=population))+
 
 denmark_ts_model_trans
 ```
+
+Some more obvious over and underestimation here. 
 
 ```{r}
 # On the observed scale
@@ -212,6 +231,10 @@ w_pop_data$population[1] # need to add this to the y population values.
 est_K_human<-human_fit$vals$k + w_pop_data$population[1] #estimated K for the data
 ```
 
+Not a bad fit. r seems a bit higher with this model (0.067 as opposed to 0.0166). Important note: need to do a bit of addition to find K (see code). 
+
+Moving on to bison:
+
 ```{r}
 #bison data
 bison_data<-read_csv(here("Portfolio1","bison.csv"))
@@ -227,22 +250,29 @@ plot(bison_fit)
 est_K_bison<-bison_fit$vals$k + bison_data$bison[1] #estimated K for the data
 ```
 
+Not a terrible fit, though the actual population growth isn't that smooth. Important consideration: a lot of populations have natural fluctuations, which could influence what model you choose. 
+
+
 **Logistic Growth of Denmark Population**
+
+Going back to Denmark:
 
 ```{r}
 #transform year to time
 den_data <- den_data |> mutate(time = year - year[1])
 ```
 
+Remember time often has to start at 0. This is the case for other packages too. 
+
 ```{r}
 denmark_fit<-SummarizeGrowth(den_data$time,den_data$population)
 denmark_fit
-plot(denmark_fit) #what is funny with this graph?  N at 0 is what?  
+plot(denmark_fit) 
 den_data$population[1] # need to add this to the y population values.  
 est_K_denmark<-denmark_fit$vals$k + den_data$population[1] #estimated K for the data
 ```
 
-
+Not a terrible fit but could be better. r is higher here too. K isn't too far below the actual population of Denmark, which makes sense. Seems like a useful estimation, with some caveats. 
 
 
 
