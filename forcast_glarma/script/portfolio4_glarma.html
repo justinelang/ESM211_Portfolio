@@ -466,8 +466,14 @@ it would affect time lags: When do they reach sexual maturity? (2 years
 for females) How long is gestation? (~ 9 months) How often do bison
 breed? (Once a year)</p></li>
 </ol>
+<p>What the package does: The GLARMA package takes data and models
+changes in population against explanatory variables. It is incredibly
+useful for time series data that is not normal.</p>
 <pre class="r"><code>#load in the bison data
 bison &lt;- read_csv(here(&quot;forcast_glarma&quot;, &quot;data&quot;, &quot;bison_copy.csv&quot;))</code></pre>
+<p>Here we’re working with Generalized Linear Autoregressive Moving
+Average Models, or GLARMA. Mostly going to be focusing on Poisson.</p>
+<p>Need to add an intercept and needs to be a matrix.</p>
 <pre class="r"><code>#add an intercept 
 bison$intercept&lt;-as.integer(1)
 
@@ -475,6 +481,8 @@ bison$intercept&lt;-as.integer(1)
 y &lt;- bison$bison # y value is bison counts
 x0 &lt;- bison %&gt;% select(intercept) 
 x0 &lt;- as.matrix(x0) # turns x0 into a matrix </code></pre>
+<p>One vector: observational count data.</p>
+<p>Time is needed. Can vary the time lag.</p>
 <pre class="r"><code>#Create three glarma models that have a time lag of 1, 2, and 7
 bison_null_lag &lt;- glarma(y, x0, phiLags = c(1), type = &quot;Poi&quot;, method = &quot;FS&quot;,
                               residuals = &quot;Pearson&quot;, maxit = 100, grad = 1e-6)
@@ -484,29 +492,29 @@ bison_null_lag2 &lt;- glarma(y, x0, phiLags = c(2), type = &quot;Poi&quot;, meth
 
 bison_null_lag7 &lt;- glarma(y, x0, phiLags = c(7), type = &quot;Poi&quot;, method = &quot;FS&quot;,
                           residuals = &quot;Pearson&quot;, maxit = 100, grad = 1e-6)</code></pre>
-<ol style="list-style-type: decimal">
-<li>Visually compare the plots. Which looks like the best fit?
-(Commenting out for knitting purposes because of the error in the one
-plot)</li>
-</ol>
+<p><strong>1. Visually compare the plots. Which looks like the best
+fit?</strong> (Commenting out for knitting purposes because of the error
+in the one plot)</p>
 <pre class="r"><code># plot.glarma(bison_null_lag) ###if you have an error in plot.window for the last plot, it&#39;s okay to ignore</code></pre>
 <pre class="r"><code># plot.glarma(bison_null_lag2)</code></pre>
 <pre class="r"><code># plot.glarma(bison_null_lag7)</code></pre>
 <p>Visually, the first one with the time lag of 1 looks like the best
 fit, though it is a close tie with the second model.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Compare the AIC for the models. Which is actually the best fit?</li>
-</ol>
+<p><strong>2. Compare the AIC for the models. Which is actually the best
+fit?</strong></p>
 <pre class="r"><code>summary(bison_null_lag)</code></pre>
 <pre class="r"><code>summary(bison_null_lag2)</code></pre>
 <pre class="r"><code>summary(bison_null_lag7)</code></pre>
 <p>Based on the lowest AIC, the second model (time lag of 2) has the
 best fit (AIC: 6684.275)</p>
-<ol start="3" style="list-style-type: decimal">
-<li>Create a model with major events factored in and compare it with the
-best fit model identified in question 2. Is the model with major events
-a better fit?</li>
-</ol>
+<p>You can choose whether or not to factor major events into these
+models, including if you want to compare them to any models without.
+Also has to be a matrix. The major events used in this example are the
+reintroduction of wolves to Yellowstone and the 1988 Yellowstone
+Fire.</p>
+<p><strong>3. Create a model with major events factored in and compare
+it with the best fit model identified in question 2. Is the model with
+major events a better fit?</strong></p>
 <pre class="r"><code>#Add intercept and major events
 bison$major_events &lt;- as.integer(0)
 
@@ -517,6 +525,7 @@ bison$major_events[bison$year==1988] &lt;- 1 # 1988 Yellowstone Fire
 #Identify variables
 x1 &lt;- bison %&gt;% select(intercept, major_events) # x1 explanatory variables, presence of major events
 x1 &lt;- as.matrix(x1) #turns x1 into a matrix</code></pre>
+<p>Using a time lag of 2 since that was the best fit model.</p>
 <pre class="r"><code>#Create the model with major events. Make the lag the same as the best fit model from question 2 
 bison_exp_lag &lt;- glarma(y, x1, phiLags = c(2), type = &quot;Poi&quot;, method = &quot;FS&quot;, 
                              residuals = &quot;Pearson&quot;, maxit = 100, grad = 1e-6)
@@ -524,7 +533,7 @@ bison_exp_lag &lt;- glarma(y, x1, phiLags = c(2), type = &quot;Poi&quot;, method
 summary(bison_exp_lag)</code></pre>
 <p>The model with major events factored in has a lower AIC (6265.411),
 which suggests it’s a better fit.</p>
-<p>Extra if you’re feeling spry</p>
+<p><strong>Extra if you’re feeling spry</strong></p>
 <pre class="r"><code>bison_mod &lt;- bison 
 
 bison_mod$est &lt;- bison_exp_lag$fitted.values #adds fitted values
