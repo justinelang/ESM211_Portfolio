@@ -25,7 +25,7 @@ Creating kernels involves the same initial steps as creating MCPs. Like before, 
 ```{r}
 ### Let's start as we did before: read in the csv and filter to 6 elk from the NER
 
-elk <- read_csv("elk_collar.csv")
+elk <- read_csv(here("Habitat_Portfolio", "elk_collar.csv"))
 
 elk <- elk %>% 
   mutate_at("id", as.character)
