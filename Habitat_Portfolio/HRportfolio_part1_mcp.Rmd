@@ -1,19 +1,13 @@
 ---
-title: "Habitat Range Part 1: MCPs"
+title: "Portfolio 5 Part 1: MCPs"
 author: "Justine Lang"
 date: "2024-01-30"
 output: 
   html_document: 
     code_folding: show
-editor_options: 
-  chunk_output_type: inline
 ---
 
 
-#**First we're going to create the MCPs for the Elk data!!**
-
-
-#load in the packages we need
 ```{r setup, echo = TRUE, warning = FALSE, message = FALSE, results = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, results = FALSE)
 
@@ -30,12 +24,11 @@ library(sp)
 
 ### To help with display
 library(scales)
-library(ggmap)
+library(ggmap) ### ggmap is outdated; can use leaflet instead
 ```
 
 For simplicity's (and R's) sake, we're going to filter our telemetry data to 6 elk from the National Elk Refuge.
 
-#read in the dataset of interest, in this case elk! & do some tidying of the data
 ```{r}
 ### Read the csv
 elk <- read_csv(here("Habitat_Portfolio","elk_collar.csv"))
@@ -49,8 +42,6 @@ elk_ner <- elk %>%
   filter(feedground == "National_Elk_Refuge") %>%  #select a feedground of interest
   filter(id %in% c("631", "632", "633", "634", "635", "636")) #select id of elk of interest
 ```
-
-#now lets make our dataframe into a spatial dataframe
 
 Creating a SpatialPointsDataFrame (from the `sp` package) is necessary for creating the home ranges in `adehabitatHR`. To accomplish this, define the coordinates and set the coordinate reference system. 
 
@@ -69,9 +60,6 @@ coordinates(elk.sp) <- c("x", "y")
 proj4string(elk.sp) <- CRS("+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs")
 ```
 
-
-#calculate the areas of the MCPs for the elk - Change the Percentage of relocations being included in calculating the area of the MCP 
-
 Use the `mcp` function to calculate the Minimum Convex Polygons. Set the percentage of relocation points to be used to construct the home ranges. Examining the output will provide the home range area. 
 
 ```{r}
@@ -82,8 +70,6 @@ elk.mcp <- mcp(elk.sp, percent = 100) #change the percentage & see how the polyg
 elk.mcp
 ```
 
-#lets visualize our elk MCPs
-
 Then we can plot our home range polygons.
 
 ```{r}
@@ -92,8 +78,6 @@ Then we can plot our home range polygons.
 plot(elk.sp, col = as.factor(elk.sp@data$id), pch = 16)
 plot(elk.mcp, col = alpha(1:5, 0.5), add = TRUE)
 ```
-
-#exploratory- home-range level and size- tells us how stable their home-range is 
 
 In this example, we use 100% of relocations to create the elk home ranges, but are all of these areas normally used by individuals? When defining home range, it is important to consider the biology of the species. With an animal that does not move much, such as certain reptiles, it may make sense to include all relocation points. With more mobile birds and mammals, however, this may not be the best approach.
 
@@ -110,9 +94,6 @@ hrs <- mcp.area(elk.sp, percent = seq(50, 100, by = 5))
 ```{r}
 hrs ### examine dataframe of home-range size
 ```
-
-
-#Now lets make a more comphrehenive map of our elk MPCs
 
 You can also plot the MCPs over a basemap. Here we use the `ggmap` package. There are instructions below for generating your own API key to create a basemap. 
 
@@ -155,17 +136,14 @@ mymap.hr
 ```
 
 
-#Porfolio Assignment Questions Part 1:
+### Porfolio Assignment Questions Part 1:
+
 1.How does the elk home range change relative to the different percentages of relocations being included? Based on what you know of elk movement, would it be suitable to include all relocation points? (Hint: are they a particularly mobile animal?)
 
+For animals that typically don't move that much, you generally want to include all (or most) relocation points. Elk are fairly mobile, however, so you may not want to include all points. How far and how often they migrate does depend on season though, so that should be considered as well. 
 
 
-
-
-
-
-
-#OPTIONAL: You can also calculate the habitat range for whole herds instead of individual animals. It takes a bit of time and processing power to display the habitat ranges of whole herds on a map, but if you're feeling adventurous, feel free to select one or two fed herds and get mapping! You may need to adjust the map and legend dimensions, but the code is below. 
+**OPTIONAL:** You can also calculate the habitat range for whole herds instead of individual animals. It takes a bit of time and processing power to display the habitat ranges of whole herds on a map, but if you're feeling adventurous, feel free to select one or two fed herds and get mapping! You may need to adjust the map and legend dimensions, but the code is below. 
 
 ```{r}
 ### Let's filter to elk from 5 different feedgrounds
