@@ -1,0 +1,116 @@
+---
+title: 'Portfolio 10: popdemo'
+author: "Justine Lang"
+date: "2024-02-15"
+output: 
+  html_document: 
+    code_folding: show
+---
+
+```{r setup, echo = TRUE, warning = FALSE, message = FALSE, results = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, results = FALSE)
+
+library(tidyverse)
+library(popdemo)
+```
+
+Deterministic Projection
+
+```{r}
+# look at the tortoise data
+Tort
+```
+
+```{r}
+# run a deterministic projection
+tortoise_vector <- runif(8) # generating a random population vector
+tortoise_vector <- tortoise_vector/sum(tortoise_vector) #scales the vector to sum to 1
+tortoise_projection_100 <- project(Tort, tortoise_vector, time = 100)
+print(tortoise_projection_100)
+```
+
+```{r}
+# extract the separate life-stage counts (just the first 10)
+vec(tortoise_projection_100)[1:11, ]
+
+# plot it using the built-in function
+plot(tortoise_projection_100)
+```
+
+
+Stochastic Projection
+
+```{r}
+# look at the polar bear data
+Pbear
+```
+
+```{r}
+Pbear_vector <- c(0.106, 0.068, 0.106, 0.461, 0.151, 0.108) # from paper
+```
+
+```{r}
+# run a 50 year stochastic projection with even probability of selecting each matrix
+Pbear_projection_random <- project(Pbear, Pbear_vector, time = 50)
+plot(Pbear_projection_random)
+```
+
+```{r}
+# look at the matrices chosen in the above model
+Aseq(Pbear_projection_random)
+```
+
+```{r}
+# specify Aseq matrix with good and bad ice years with their probabilities
+p3 <- 0.8 # probability of a bad ice year
+bad_years_4x_likely <- matrix(
+  rep(c((1-p3)/3, (1-p3)/3, (1-p3)/3, p3/2, p3/2), 5), 5, 5)
+bad_years_4x_likely
+```
+
+```{r}
+# call this matrix into our project() function using Aseq argument
+Pbear_projection_badyears4xlikely <- project(Pbear, Pbear_vector,
+                                            Aseq = bad_years_4x_likely,
+                                            time = 50)
+Aseq(Pbear_projection_badyears4xlikely)
+plot(Pbear_projection_badyears4xlikely)
+```
+
+
+Task 1:
+
+Define a new matrix to feed into Aseq that takes the previous year’s sea ice status into account.
+
+Make good years more likely if the previous year was good (use 20% likelihood), and conversely # makes bad ice years more likely if the previous year was bad (use 80% likelihood).
+
+```{r}
+p4 <- 0.2 # probability next year is a bad year given that this year was a good year
+q4 <- 0.8 # probability next year is a bad year given that this year was a bad year
+Pbear_task1_matrix <- matrix(c(rep(c((1-p4)/3, (1-p4)/3, (1-p4)/3, p4/2, p4/2), 3),
+                      rep(c((1-q4)/3, (1-q4)/3, (1-q4)/3, q4/2, q4/2), 2)), 5, 5)
+
+Pbear_task1_projection <- project(Pbear, Pbear_vector, Aseq = Pbear_task1_matrix, time = 50)
+plot(Pbear_task1_projection)
+```
+
+Task 2:
+
+Define 2 new parameters which describe the probability next year is a bad year given that this year was a good (use 50% likelihood), and (b) describe the probability next year is a bad year given that this year was a bad year (use 80% likelihood again).
+
+```{r}
+p5 <- 0.5 # probability next year is a bad year given that this year was a good year
+q5 <- 0.8 # arbitrary object names
+Pbear_task2_matrix <- matrix(c(rep(c((1-p5)/3, (1-p5)/3, (1-p5)/3, p5/2, p5/2), 3),
+                      rep(c((1-q5)/3, (1-q5)/3, (1-q5)/3, q5/2, q5/2), 2)), 5, 5)
+
+Pbear_task2_projection <- project(Pbear, Pbear_vector, Aseq = Pbear_task2_matrix, time = 50)
+plot(Pbear_task1_projection)
+```
+
+
+
+
+
+
+
