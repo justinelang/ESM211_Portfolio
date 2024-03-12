@@ -1,19 +1,16 @@
 ---
-title: "FSAPortfolioAssignment"
-output: html_document
-date: "2024-02-05"
----
----
-title: "FSA_ExampleCodeAndPortfolioAssignment"
-output: html_document
+title: "FSA Portfolio Assignment"
+output: 
+  html_document: 
+    code_folding: show
 date: "2024-02-05"
 ---
 
 Portfolio assignment questions are at the end of the CatchCurve and the Depletion function sections. There is not a portfolio assignment with the Weight-Length example, but the code is here if you want to try it! There are a total of four questions. 
 
 ## Load in the necessary pacakges for all three examples
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, echo = TRUE, message = FALSE, warning = FALSE, results = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = FALSE)
 
 #the main package
 library(FSA)
@@ -37,7 +34,7 @@ clean data for example
 ```{r}
 #let's look at the Bluegill data, which was a catch and release sample from a lake in Wisconsin. 
 
-#this data has fish length in inches and weight in grams. recall for relative weights you need to be fully in  english or metric units. 
+#this data has fish length in inches and weight in grams. recall for relative weights you need to be fully in english or metric units. 
 
 #convert lengths to mm in a new column called length_mm
 InchLake2$length_mm <- round(InchLake2$length*25.4,0) 
